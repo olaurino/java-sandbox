@@ -6,8 +6,9 @@ package cfa.vo;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
+    public App() {}
+    
+    public void getMessage() {
         System.out.println( "Hello World!" );
     }
 }
