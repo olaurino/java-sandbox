@@ -12,16 +12,12 @@ import java.util.List;
  * Created by olaurino on 7/2/15.
  */
 public class GroovyConsoleComponent implements IrisComponent {
-    private IrisApplication app;
-    private IWorkspace ws;
     private SedlibSedManager manager;
     private MenuItems menuItems = new MenuItems();
 
     @Override
     public void init(IrisApplication irisApplication, IWorkspace iWorkspace) {
-        this.app = irisApplication;
-        this.ws = iWorkspace;
-        this.manager = (SedlibSedManager) ws.getSedManager();
+        this.manager = (SedlibSedManager) iWorkspace.getSedManager();
     }
 
     @Override
@@ -51,12 +47,14 @@ public class GroovyConsoleComponent implements IrisComponent {
 
     @Override
     public List<MessageHandler> getSampHandlers() {
-        return new ArrayList();
+        return new ArrayList<MessageHandler>();
     }
 
     @Override
     public void shutdown() {
-        menuItems.console.exit();
+        if (menuItems.console != null) {
+            menuItems.console.exit();
+        }
     }
 
     private class MenuItems extends ArrayList<IMenuItem> {
