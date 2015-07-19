@@ -1,40 +1,51 @@
 package cfa.vo;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import org.uispec4j.Desktop;
+import org.uispec4j.Trigger;
+import org.uispec4j.UISpecTestCase;
+import org.uispec4j.Window;
+import org.uispec4j.interception.MainClassAdapter;
+import org.uispec4j.interception.WindowInterceptor;
 
 /**
- * Unit test for simple App.
+ * Created by Omar on 7/3/2015.
  */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+public class AppTest extends UISpecTestCase {
+
+    @BeforeClass
+    protected void setUp() throws Exception {
+        System.setProperty("uispec4j.test.library", "testng");
+        setAdapter(new MainClassAdapter(App.class, new String[0]));
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @Test
+    public void testBasic() throws Exception {
+        Window window = getMainWindow();
+        assertEquals("SandBox", window.getTitle());
+        Desktop desktop = window.getDesktop();
+
+        Window samphub = WindowInterceptor.run(new Trigger() {
+            @Override
+            public void run() throws Exception {
+
+            }
+        });
+
+        samphub.titleEquals("SAMP Hub");
+
+        window.getMenuBar()
+                .getMenu("Tools")
+                .getSubMenu("Plugin Manager")
+                .getSubMenu("Plugin Manager")
+                .click();
+
+        desktop.containsWindow("Plugin Manager");
+
+        Window pmanager = desktop.getWindow("Plugin Manager");
+
+        pmanager.dispose();
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        App app = new App();
-        app.getMessage();
-        assertTrue(true);
-    }
 }
