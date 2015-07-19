@@ -61,6 +61,9 @@
       
       <!-- Optional cobertura coverage check - will fail the build if the coverage is below the threshold -->
       <configuration>
+          <formats>
+              <format>xml</format>
+          </formats>
         <check>
           <!-- Per-class thresholds -->
           <lineRate>70</lineRate>
@@ -79,6 +82,11 @@
         </execution>
       </executions>
     </plugin>
+      <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>3.1.0</version>
+      </plugin>
   </plugins>
   </build>
   
