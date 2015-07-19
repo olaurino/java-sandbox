@@ -11,3 +11,6 @@ cache:
 install: true
 
 script: mvn -U -Pci-headless test
+
+after_success:
+  - mvn -Pci-headless clean cobertura:cobertura coveralls:report
