@@ -1,9 +1,9 @@
-
 package cfa.vo;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.uispec4j.Desktop;
+import org.uispec4j.Trigger;
 import org.uispec4j.UISpecTestCase;
 import org.uispec4j.Window;
 import org.uispec4j.interception.MainClassAdapter;
@@ -26,17 +26,26 @@ public class AppTest extends UISpecTestCase {
         assertEquals("SandBox", window.getTitle());
         Desktop desktop = window.getDesktop();
 
-        Window console = WindowInterceptor.run(
-                window.getMenuBar()
-                        .getMenu("Tools")
-                        .getSubMenu("GroovyConsole")
-                        .getSubMenu("Groovy Console")
-                        .triggerClick()
-        );
+        Window samphub = WindowInterceptor.run(new Trigger() {
+            @Override
+            public void run() throws Exception {
 
-        assertEquals("GroovyConsole", console.getTitle());
+            }
+        });
 
-        console.dispose();
+        samphub.titleEquals("SAMP Hub");
+
+        window.getMenuBar()
+                .getMenu("Tools")
+                .getSubMenu("Plugin Manager")
+                .getSubMenu("Plugin Manager")
+                .click();
+
+        desktop.containsWindow("Plugin Manager");
+
+        Window pmanager = desktop.getWindow("Plugin Manager");
+
+        pmanager.dispose();
     }
 
 }
