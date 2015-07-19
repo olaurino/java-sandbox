@@ -2,11 +2,14 @@ package cfa.vo;
 
 import cfa.vo.iris.AbstractIrisApplication;
 import cfa.vo.iris.IrisComponent;
+import cfa.vo.sandbox.gui.JFreeDemoComponent;
 
 import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Hello world!
@@ -54,6 +57,8 @@ public class App extends AbstractIrisApplication
     @Override
     public void setProperties(List<String> strings) {
         components.add(new GroovyConsoleComponent());
+        components.add(new JFreeDemoComponent());
+        Logger.getLogger("").setLevel(Level.ALL);
     }
 
     @Override
