@@ -19,16 +19,12 @@ public class AppTest extends UISpecTestCase {
     Desktop desktop;
 
     @BeforeClass
-    protected void setUp() throws Exception {
+    protected void setUpClass() throws Exception {
         System.setProperty("uispec4j.test.library", "testng");
         setAdapter(new MainClassAdapter(App.class, new String[0]));
         mainWindow = getMainWindow();
         desktop = mainWindow.getDesktop();
-    }
 
-    @Test
-    public void testBasic() throws Exception {
-        assertEquals("SandBox", mainWindow.getTitle());
 
         Window samphub = WindowInterceptor.run(new Trigger() {
             @Override
@@ -38,6 +34,11 @@ public class AppTest extends UISpecTestCase {
         });
 
         samphub.titleEquals("SAMP Hub");
+    }
+
+    @Test
+    public void testBasic() throws Exception {
+        assertEquals("SandBox", mainWindow.getTitle());
 
         mainWindow.getMenuBar()
                 .getMenu("Tools")
@@ -73,6 +74,20 @@ public class AppTest extends UISpecTestCase {
         assertTrue("Frame's default close operation is not HIDE", demoFrame.getDefaultCloseOperation() == JInternalFrame.HIDE_ON_CLOSE);
 
         demo.dispose();
+    }
+
+    @Test
+    public void testGroovyConsole() {
+        Window groovyConsole = WindowInterceptor.run(
+                mainWindow.getMenuBar()
+                .getMenu("Tools")
+                .getSubMenu("GroovyConsole")
+                .getSubMenu("Groovy Console")
+                .triggerClick()
+        );
+
+        groovyConsole.titleEquals("Groovy Console");
+
     }
 
 }
