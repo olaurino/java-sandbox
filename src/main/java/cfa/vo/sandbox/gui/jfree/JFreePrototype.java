@@ -1,4 +1,12 @@
-package cfa.vo.sandbox.gui;
+package cfa.vo.sandbox.gui.jfree;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.RenderingHints;
+import java.awt.geom.Rectangle2D;
+import java.util.Random;
+
+import javax.swing.JOptionPane;
 
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
@@ -17,28 +25,16 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYIntervalDataItem;
 import org.jfree.data.xy.XYIntervalSeries;
 import org.jfree.data.xy.XYIntervalSeriesCollection;
+import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RectangleEdge;
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.Random;
+import org.jfree.ui.RefineryUtilities;
 
 /**
- * JFreeChart demo and exposition of a few things we may be interesting
- * for visualizing and plotting SEDs. A few of the requirements here:
+ * Prototype class for experimenting with application requirements for the
+ * SEDViewer.
  * 
- * Plotting data
- * Asymmetric error lines (x and y)
- * Multiple axis *kind of
- * Axis labels
- * Basic interactions with points (hover and click)
- * Crosshairs
- * 
- * JFree provides easy acces to exporting/printing.
- *
  */
-public class JFreeDemoView extends JInternalFrame {
+public class JFreePrototype extends ApplicationFrame {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,7 +51,7 @@ public class JFreeDemoView extends JInternalFrame {
         }
     };
     
-    public JFreeDemoView(final String title) {
+    public JFreePrototype(final String title) {
         super(title);
 
         final JFreeChart chart = createChart();
@@ -214,5 +210,17 @@ public class JFreeDemoView extends JInternalFrame {
             this.xCrosshair.setValue(x);
             this.yCrosshair.setValue(y);
         }
+    }
+
+    /**
+     * Kickoff the demo app.
+     * 
+     */
+    public static void main(final String[] args) {
+
+        final JFreePrototype demo = new JFreePrototype("Prototype");
+        demo.pack();
+        RefineryUtilities.centerFrameOnScreen(demo);
+        demo.setVisible(true);
     }
 }
