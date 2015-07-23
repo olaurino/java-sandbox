@@ -3,8 +3,10 @@ package cfa.vo;
 import cfa.vo.iris.AbstractIrisApplication;
 import cfa.vo.iris.IrisComponent;
 import cfa.vo.sandbox.gui.JFreeDemoComponent;
+import cfa.vo.sandbox.gui.StiltsDemoComponent;
 
 import javax.swing.*;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,7 @@ public class App extends AbstractIrisApplication
     public void setProperties(List<String> strings) {
         components.add(new GroovyConsoleComponent());
         components.add(new JFreeDemoComponent());
+        components.add(new StiltsDemoComponent());
         Logger.getLogger("").setLevel(Level.ALL);
     }
 

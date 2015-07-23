@@ -4,14 +4,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
-import java.util.Random;
-
 import javax.swing.JOptionPane;
 
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.ChartEntity;
@@ -27,7 +26,8 @@ import org.jfree.data.xy.XYIntervalSeries;
 import org.jfree.data.xy.XYIntervalSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RefineryUtilities;
+
+import cfa.vo.sandbox.gui.stil.StilPrototype;
 
 /**
  * Prototype class for experimenting with application requirements for the
@@ -38,9 +38,8 @@ public class JFreePrototype extends ApplicationFrame {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int COUNT = 100;
-
     private ChartPanel panel;
+    private StilPrototype table;
     
     private static final String DATA = "<html>POINT DATA<br>ID=%s<br>X=%s<br>Y=%s";
     @SuppressWarnings("serial")
@@ -51,11 +50,12 @@ public class JFreePrototype extends ApplicationFrame {
         }
     };
     
-    public JFreePrototype(final String title) {
+    public JFreePrototype(final String title, StilPrototype table) throws Exception {
         super(title);
+        this.table = table;
 
         final JFreeChart chart = createChart();
-
+        
         panel = new ChartPanel(chart, true);
         panel.setPreferredSize(new java.awt.Dimension(1000, 700));
 
@@ -80,7 +80,7 @@ public class JFreePrototype extends ApplicationFrame {
         setContentPane(panel);
     }
 
-    private JFreeChart createChart() {
+    private JFreeChart createChart() throws Exception {
 
         XYPlot xyPlot = new XYPlot();
         xyPlot.setBackgroundPaint(Color.lightGray);
@@ -89,16 +89,13 @@ public class JFreePrototype extends ApplicationFrame {
 
         setScatterPlot(xyPlot);
 
-        NumberAxis domainAxis = new NumberAxis("X Data Label");
-        NumberAxis rangeAxis = new NumberAxis("Y Data Label");
-        NumberAxis rangeAxis2 = new NumberAxis("Other Y Data");
+        NumberAxis domainAxis = new LogarithmicAxis("X Data Label");
+        NumberAxis rangeAxis = new LogarithmicAxis("Y Data Label");
 
         xyPlot.setDomainAxis(domainAxis);
         xyPlot.setRangeAxis(rangeAxis);
-        xyPlot.setRangeAxis(1, rangeAxis2);
         xyPlot.mapDatasetToDomainAxis(0, 0);
         xyPlot.mapDatasetToRangeAxis(0, 0);
-        xyPlot.mapDatasetToRangeAxis(1, 1);
         
 //        Theres something here, I'm just not yet totally clear on how function plotting works. Going to
 //        hold off on doing more with it until I have a better understanding of model functions.
@@ -115,51 +112,21 @@ public class JFreePrototype extends ApplicationFrame {
         return chart;
     }
 
-    private void setScatterPlot(XYPlot xyPlot) {
-
-        // Add the data to the shared plot.
-        XYIntervalSeriesCollection data1 = getPointData("sed 1", 0);
+    private void setScatterPlot(XYPlot xyPlot) throws Exception {
+        XYIntervalSeriesCollection data1 = table.getPlotPoints();
         XYErrorRenderer renderer1 = new XYErrorRenderer();
         renderer1.setBaseToolTipGenerator(xyToolTip);
+        renderer1.setDrawXError(true);
+        renderer1.setDrawYError(true);
         xyPlot.setDataset(0, data1);
         xyPlot.setRenderer(0, renderer1);
-
-        // Add the data to the shared plot.
-        XYIntervalSeriesCollection data2 = getPointData("sed 2", .5);
-        XYErrorRenderer renderer2 = new XYErrorRenderer();
-        renderer2.setDrawXError(true);
-        renderer2.setDrawYError(true);
-        renderer2.setBaseToolTipGenerator(xyToolTip);
-        xyPlot.setDataset(1, data2);
-        xyPlot.setRenderer(1, renderer2);
-    }
-
-    private XYIntervalSeriesCollection getPointData(String seriesName,
-            double xStart) 
-    {
-        XYIntervalSeriesCollection data = new XYIntervalSeriesCollection();
-        XYIntervalSeries xyIntervalSeries = new XYIntervalSeries(seriesName);
-
-        Random g = new Random();
-        for (double i = xStart; i < xStart + COUNT; i++) {
-            double x = (double) i;
-            double y = Math.abs(20 * Math.sin(x));
-            double x_h = x + g.nextDouble();
-            double x_l = x - g.nextDouble();
-            double y_h = y + g.nextDouble();
-            double y_l = y - g.nextDouble();
-            xyIntervalSeries.add(x, x_l, x_h, y, y_l, y_h);
-        }
-        
-        data.addSeries(xyIntervalSeries);
-        return data;
     }
     
     /**
      * Listener class for mouse interactions over the plot.
      *
      */
-    private static class ChartMouseActionListener implements ChartMouseListener {
+    private class ChartMouseActionListener implements ChartMouseListener {
         
         private Crosshair xCrosshair;
         private Crosshair yCrosshair;
@@ -189,7 +156,11 @@ public class JFreePrototype extends ApplicationFrame {
             XYIntervalSeries series = ((XYIntervalSeriesCollection) dataset).getSeries(seriesIndex);
             XYIntervalDataItem xyItem = (XYIntervalDataItem) series.getDataItem(item);
             
-            JOptionPane.showMessageDialog(panel, "So much information here! \n" + xyItem.toString());
+            try {
+                JOptionPane.showMessageDialog(panel, table.getRowMetadata(item));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         public void chartMouseMoved(ChartMouseEvent event) {
@@ -210,17 +181,5 @@ public class JFreePrototype extends ApplicationFrame {
             this.xCrosshair.setValue(x);
             this.yCrosshair.setValue(y);
         }
-    }
-
-    /**
-     * Kickoff the demo app.
-     * 
-     */
-    public static void main(final String[] args) {
-
-        final JFreePrototype demo = new JFreePrototype("Prototype");
-        demo.pack();
-        RefineryUtilities.centerFrameOnScreen(demo);
-        demo.setVisible(true);
     }
 }

@@ -22,11 +22,11 @@
           <version>6.1.1</version>
           <scope>test</scope>
       </dependency>
-    <dependency>
-      <groupId>jfree</groupId>
-      <artifactId>jfreechart</artifactId>
-      <version>1.0.13</version>
-    </dependency>
+      <dependency>
+          <groupId>jfree</groupId>
+          <artifactId>jfreechart</artifactId>
+          <version>1.0.13</version>
+      </dependency>
       <dependency>
           <groupId>cfa.vo</groupId>
           <artifactId>iris-common</artifactId>
@@ -36,6 +36,13 @@
           <groupId>org.codehaus.groovy</groupId>
           <artifactId>groovy-all</artifactId>
           <version>2.4.3</version>
+      </dependency>
+      
+      <!-- STILTS Uploaded to Artifactory -->
+      <dependency>
+          <groupId>star.bristol.ac.uk</groupId>
+          <artifactId>STILTS</artifactId>
+          <version>3.0-12</version>
       </dependency>
   </dependencies>
 
