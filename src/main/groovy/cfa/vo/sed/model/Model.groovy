@@ -64,6 +64,7 @@ class FlatSegmentTrait implements ISedSegment {
     String xUnits
     String yUnits
     String yErrUnits
+    abstract propertyChange
 }
 
 @AutoClone
@@ -81,7 +82,7 @@ final class Spectrum extends FlatSegment {
     static AtomicLong _counter = new AtomicLong()
 
     @Vetoable String id = "${getClass().simpleName}_${_counter.getAndIncrement()}"
-    String name
+    @Bindable String name
     String description
     Map attributes = [:]
 }
