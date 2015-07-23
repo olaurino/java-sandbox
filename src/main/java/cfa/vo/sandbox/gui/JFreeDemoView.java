@@ -81,7 +81,14 @@ public class JFreeDemoView extends JInternalFrame {
         panel.setMinimumDrawWidth(20);
         panel.setMaximumDrawWidth(2000);
 
+        setClosable(true);
+        setResizable(true);
+        setMaximizable(true);
+        setIconifiable(true);
+        setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
+
         setContentPane(panel);
+        pack();
     }
 
     private JFreeChart createChart() {
