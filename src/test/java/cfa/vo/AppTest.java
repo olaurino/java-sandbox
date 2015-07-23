@@ -1,13 +1,9 @@
 package cfa.vo;
 
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import org.uispec4j.Desktop;
-import org.uispec4j.Trigger;
-import org.uispec4j.UISpecTestCase;
-import org.uispec4j.Window;
-import org.uispec4j.interception.MainClassAdapter;
+import org.junit.Test;
+import org.uispec4j.*;
 import org.uispec4j.interception.WindowInterceptor;
+import org.uispec4j.utils.MainClassTrigger;
 
 import javax.swing.*;
 
@@ -15,13 +11,15 @@ import javax.swing.*;
  * Created by Omar on 7/3/2015.
  */
 public class AppTest extends UISpecTestCase {
-    Window mainWindow;
-    Desktop desktop;
+    private static Window mainWindow;
+    private Desktop desktop;
+    private static Trigger trigger;
+    private static Window samphub;
 
-    @BeforeClass
-    protected void setUpClass() throws Exception {
-        System.setProperty("uispec4j.test.library", "testng");
-        setAdapter(new MainClassAdapter(App.class, new String[0]));
+
+    public void setUp() throws Exception {
+        super.setUp();
+        setAdapter(new AppAdapter(App.class, new String[0]));
         mainWindow = getMainWindow();
         desktop = mainWindow.getDesktop();
 
@@ -46,6 +44,9 @@ public class AppTest extends UISpecTestCase {
 //            at org.uispec4j.interception.WindowInterceptor.run(WindowInterceptor.java:290)
 //            at cfa.vo.AppTest.setUpClass(AppTest.java:54)
 
+//        [OMAR]: I believe my changes fix this issue by implementing the AppAdapter.
+//        The problem is that the SampHub window must only be intercepted once.
+
         Window samphub = WindowInterceptor.run(new Trigger() {
             @Override
             public void run() throws Exception {
@@ -55,7 +56,6 @@ public class AppTest extends UISpecTestCase {
         samphub.titleEquals("SAMP Hub");
     }
 
-    @Test
     public void testBasic() throws Exception {
         assertEquals("SandBox", mainWindow.getTitle());
 
@@ -72,7 +72,6 @@ public class AppTest extends UISpecTestCase {
         pmanager.dispose();
     }
 
-    @Test
     public void testJFreeDemo() throws Exception {
 
         mainWindow.getMenuBar()
@@ -118,7 +117,6 @@ public class AppTest extends UISpecTestCase {
         demo.dispose();
     }
 
-    @Test
     public void testGroovyConsole() {
         Window groovyConsole = WindowInterceptor.run(
                 mainWindow.getMenuBar()
@@ -129,6 +127,28 @@ public class AppTest extends UISpecTestCase {
         );
 
         groovyConsole.titleEquals("Groovy Console");
+
+    }
+
+    private static class AppAdapter implements UISpecAdapter {
+
+        public AppAdapter(Class mainClass, String... args) {
+            if(trigger == null)
+                trigger = new MainClassTrigger(mainClass, args);
+        }
+
+        public Window getMainWindow() {
+            if (mainWindow == null) {
+                mainWindow = WindowInterceptor.run(trigger);
+                samphub = WindowInterceptor.run(new Trigger() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                });
+            }
+            return mainWindow;
+        }
 
     }
 

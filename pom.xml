@@ -12,14 +12,21 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <github.global.server>github</github.global.server>
     </properties>
 
   <dependencies>
       <dependency>
-          <groupId>org.testng</groupId>
-          <artifactId>testng</artifactId>
-          <version>6.1.1</version>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.12</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.spockframework</groupId>
+          <artifactId>spock-core</artifactId>
+          <version>1.0-groovy-2.4</version>
           <scope>test</scope>
       </dependency>
       <dependency>
@@ -57,12 +64,44 @@
               <target>1.6</target>
           </configuration>
       </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.18.1</version>
+          <configuration>
+              <failIfNoTests>true</failIfNoTests>
+              <includes>
+                  <include>**/*Test.*</include>
+              </includes>
+          </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.18.1</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>integration-test</goal>
+                      <goal>verify</goal>
+                  </goals>
+              </execution>
+          </executions>
+          <configuration>
+              <failIfNoTests>true</failIfNoTests>
+              <includes>
+                  <include>**/*IT.*</include>
+              </includes>
+          </configuration>
+      </plugin>
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>cobertura-maven-plugin</artifactId>
-      <version>2.6</version>
+      <version>2.7</version>
       
       <!-- Optional cobertura coverage check - will fail the build if the coverage is below the threshold -->
+        <!-- Does not seem to work with Failsafe, as it runs before the integration tests and thus does not
+        include their coverage -->
       <configuration>
           <formats>
               <format>xml</format>
@@ -76,14 +115,14 @@
           <totalBranchRate>15</totalBranchRate>
         </check>
       </configuration>
-      <executions>
-        <execution>
-          <phase>verify</phase>
-          <goals>
-            <goal>check</goal>
-          </goals>
-        </execution>
-      </executions>
+      <!--<executions>-->
+        <!--<execution>-->
+          <!--<phase>verify</phase>-->
+          <!--<goals>-->
+            <!--<goal>check</goal>-->
+          <!--</goals>-->
+        <!--</execution>-->
+      <!--</executions>-->
     </plugin>
       <plugin>
           <groupId>org.eluder.coveralls</groupId>
@@ -112,17 +151,57 @@
               </execution>
           </executions>
       </plugin>
+      <plugin>
+          <groupId>org.codehaus.gmavenplus</groupId>
+          <artifactId>gmavenplus-plugin</artifactId>
+          <version>1.5</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>compile</goal>
+                      <goal>testCompile</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <executions>
+              <execution>
+                  <phase>generate-sources</phase>
+                  <goals>
+                      <goal>add-source</goal>
+                  </goals>
+                  <configuration>
+                      <sources>
+                          <source>src/main/groovy</source>
+                      </sources>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
   </plugins>
   </build>
   
   <reporting>
+
     <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-report-plugin</artifactId>
+            <version>2.18.1</version>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jxr-plugin</artifactId>
+            <version>2.1</version>
+        </plugin>
     <!-- Cobertura report generation, the report is available in the -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.6</version>
-        
+        <version>2.7</version>
         <!-- Aggregate the coverage reports for all sub-modules into a single site report -->
         <reportSets>
           <reportSet>
