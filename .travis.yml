@@ -10,7 +10,7 @@ cache:
 
 install: true
 
-script: mvn -U -Pci-headless test
+script: mvn -U -Pci-headless verify
 
 after_success:
-  - mvn -Pci-headless clean cobertura:cobertura coveralls:report
+  - mvn -Pci-headless clean cobertura:cobertura-integration-test coveralls:report
