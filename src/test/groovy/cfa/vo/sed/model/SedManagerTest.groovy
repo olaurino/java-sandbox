@@ -5,8 +5,6 @@ import spock.lang.Specification
  * Created by Omar on 7/21/2015.
  */
 class SedManagerTest extends Specification {
-    def sCounter
-    def pCounter
     def s0
     def s1
     def p0
@@ -14,12 +12,15 @@ class SedManagerTest extends Specification {
     def manager
 
     def setup() {
-        sCounter = Spectrum._counter.get()
-        pCounter = PhotometryPoint._counter.get()
-        s0 = new Spectrum()
-        s1 = new Spectrum()
-        p0 = new PhotometryPoint()
-        p1 = new PhotometryPoint()
+        s0 = GroovyMock(Spectrum)
+        s1 = GroovyMock(Spectrum)
+        p0 = GroovyMock(PhotometryPoint)
+        p1 = GroovyMock(PhotometryPoint)
+
+        s0.id >> "Spectrum_0"
+        s1.id >> "Spectrum_1"
+        p0.id >> "PhotometryPoint_0"
+        p1.id >> "PhotometryPoint_1"
 
         manager = SedManager.instance
 
@@ -31,9 +32,9 @@ class SedManagerTest extends Specification {
 
     def "manager can find entities by ID"() {
         expect:
-        manager.findById("Spectrum_$sCounter") == s0
-        manager.findById("Spectrum_${sCounter+1}") == s1
-        manager.findById("PhotometryPoint_$pCounter") == p0
-        manager.findById("PhotometryPoint_${pCounter+1}") == p1
+        manager.findById("Spectrum_0") == s0
+        manager.findById("Spectrum_1") == s1
+        manager.findById("PhotometryPoint_0") == p0
+        manager.findById("PhotometryPoint_1") == p1
     }
 }
