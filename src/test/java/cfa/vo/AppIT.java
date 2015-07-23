@@ -1,3 +1,4 @@
+
 package cfa.vo;
 
 import org.junit.Test;
@@ -10,7 +11,7 @@ import javax.swing.*;
 /**
  * Created by Omar on 7/3/2015.
  */
-public class AppTest extends UISpecTestCase {
+public class AppIT extends UISpecTestCase {
     private static Window mainWindow;
     private Desktop desktop;
     private static Trigger trigger;
@@ -22,37 +23,6 @@ public class AppTest extends UISpecTestCase {
         setAdapter(new AppAdapter(App.class, new String[0]));
         mainWindow = getMainWindow();
         desktop = mainWindow.getDesktop();
-
-        // Note:
-        //   I haven't dug too much into this - these tests fail intermittently with the
-        // error message listed below. It looks related to race conditions between
-        // starting the samp server and the spec4j window interceptor, probably fixable 
-        // by waiting for a successful startup/shutdown - but definitely something to look
-        // more into for setting up Iris GUI tests (I would have a dummy service under the 
-        // GUI so we don't have to worry about the actual setup).
-      
-//        Aug 24, 2015 11:56:54 AM org.astrogrid.samp.httpd.HttpServer start
-//        INFO: Server http://127.0.0.1:43889 starting
-//        Tests run: 5, Failures: 1, Errors: 0, Skipped: 4, Time elapsed: 12.887 sec <<< FAILURE!
-//        setUpClass on instance null(cfa.vo.AppTest)(cfa.vo.AppTest)  Time elapsed: 12.839 sec  <<< FAILURE!
-//        java.lang.AssertionError: No window was shown (timeout expired)
-//            at org.testng.Assert.fail(Assert.java:89)
-//            at org.uispec4j.assertion.testlibrairies.TestNGLibrary.fail(TestNGLibrary.java:7)
-//            at org.uispec4j.assertion.testlibrairies.AssertAdapter.fail(AssertAdapter.java:11)
-//            at org.uispec4j.interception.handlers.ShownInterceptionDetectionHandler.waitWindow(ShownInterceptionDetectionHandler.java:39)
-//            at org.uispec4j.interception.WindowInterceptor.run(WindowInterceptor.java:324)
-//            at org.uispec4j.interception.WindowInterceptor.run(WindowInterceptor.java:290)
-//            at cfa.vo.AppTest.setUpClass(AppTest.java:54)
-
-//        [OMAR]: I believe my changes fix this issue by implementing the AppAdapter.
-//        The problem is that the SampHub window must only be intercepted once.
-
-        Window samphub = WindowInterceptor.run(new Trigger() {
-            @Override
-            public void run() throws Exception {
-            }
-        });
-
         samphub.titleEquals("SAMP Hub");
     }
 
@@ -93,7 +63,20 @@ public class AppTest extends UISpecTestCase {
 
         demo.dispose();
     }
-    
+
+    public void testGroovyConsole() {
+        Window groovyConsole = WindowInterceptor.run(
+                mainWindow.getMenuBar()
+                .getMenu("Tools")
+                .getSubMenu("GroovyConsole")
+                .getSubMenu("Groovy Console")
+                .triggerClick()
+        );
+
+        groovyConsole.titleEquals("Groovy Console");
+
+    }
+
     @Test
     public void testStiltsDemo() throws Exception {
 
@@ -115,19 +98,6 @@ public class AppTest extends UISpecTestCase {
         assertTrue("Frame's default close operation is not HIDE", demoFrame.getDefaultCloseOperation() == JInternalFrame.HIDE_ON_CLOSE);
 
         demo.dispose();
-    }
-
-    public void testGroovyConsole() {
-        Window groovyConsole = WindowInterceptor.run(
-                mainWindow.getMenuBar()
-                .getMenu("Tools")
-                .getSubMenu("GroovyConsole")
-                .getSubMenu("Groovy Console")
-                .triggerClick()
-        );
-
-        groovyConsole.titleEquals("Groovy Console");
-
     }
 
     private static class AppAdapter implements UISpecAdapter {

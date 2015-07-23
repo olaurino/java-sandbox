@@ -1,6 +1,5 @@
-package cfa.vo.sed
-import cfa.vo.sed.model.PhotometryPoint
-import cfa.vo.sed.model.Spectrum
+package cfa.vo.sed.model
+
 import spock.lang.Specification
 /**
  * Created by Omar on 7/21/2015.
@@ -13,7 +12,6 @@ class ModelTest extends Specification {
     def s1
     def p0
     def p1
-    def manager
 
     def setup() {
         sCounter = Spectrum._counter.get()
@@ -22,13 +20,6 @@ class ModelTest extends Specification {
         s1 = new Spectrum()
         p0 = new PhotometryPoint()
         p1 = new PhotometryPoint()
-
-        manager = SedManager.instance
-
-        manager.add(s0)
-        manager.add(s1)
-        manager.add(p0)
-        manager.add(p1)
     }
 
     def "each entity has a unique ID"() {
