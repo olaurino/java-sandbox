@@ -28,8 +28,8 @@ public class StiltsDemoView extends JInternalFrame {
         
         try {
             tables = Arrays.asList(
-                f.makeStarTable("/export/eholum/notes/SEDSample1"),
-                f.makeStarTable("/export/eholum/notes/SEDSample2"));
+            //    f.makeStarTable("https://s3.amazonaws.com/eho86/SEDSample1")
+                );
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
