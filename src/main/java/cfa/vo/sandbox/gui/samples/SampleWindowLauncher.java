@@ -41,15 +41,20 @@ public class SampleWindowLauncher {
      */
     private void initialize() throws Exception {
         frame = new JFrame();
-        frame.setBounds(100, 100, 1146, 794);
+        frame.setBounds(100, 100, 1146, 1059);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         JDesktopPane desktopPane = new JDesktopPane();
         frame.getContentPane().add(desktopPane, BorderLayout.CENTER);
         
         MetadataBrowserView metadataBrowserView = new MetadataBrowserView();
-        metadataBrowserView.setBounds(12, 12, 1049, 685);
-        metadataBrowserView.setVisible(true);
+        metadataBrowserView.setBounds(758, 883, 336, 84);
+        metadataBrowserView.setVisible(false);
         desktopPane.add(metadataBrowserView);
+        
+        PlotterView plotterView = new PlotterView();
+        plotterView.setBounds(12, 12, 1096, 725);
+        plotterView.setVisible(true);
+        desktopPane.add(plotterView);
     }
 }

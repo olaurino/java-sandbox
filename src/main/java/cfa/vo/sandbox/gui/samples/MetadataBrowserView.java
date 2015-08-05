@@ -93,7 +93,7 @@ public class MetadataBrowserView extends JInternalFrame {
         setClosable(true);
         
         try {
-            stil = new StilPrototype("/export/eholum/notes/SEDSample1");
+            stil = new StilPrototype("resources/data/SEDSample1");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
