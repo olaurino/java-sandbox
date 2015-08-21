@@ -62,7 +62,7 @@ public class StiltsDemoComponent implements IrisComponent {
                 @Override
                 public void onClick() {
                     if (view == null) {
-                        view = new StiltsDemoView("StiltsDemo");
+                        view = new StiltsDemoView("StiltsDemo", app, ws);
                         ws.getDesktop().add(view);
                     }
                     GUIUtils.moveToFront(view);

@@ -25,10 +25,35 @@ public class StilPrototype {
         // Or just StarTableFactory and ignore the previous step
         VOTableBuilder builder = new VOTableBuilder();
         this.table = builder.makeStarTable(dataSource, false, StoragePolicy.PREFER_MEMORY);
+        
+        for (int i=0; i<table.getColumnCount(); i++) {
+            System.out.println(">>> " + table.getColumnInfo(i));
+        }
     }
     
     public StarTable getTable() {
         return table;
+    }
+    
+    public XYIntervalSeriesCollection getPlotPoints(int i) throws IOException {
+        XYIntervalSeriesCollection data = new XYIntervalSeriesCollection();
+        XYIntervalSeries xyIntervalSeries = new XYIntervalSeries(
+                table.getName());
+
+        RowSequence rs = table.getRowSequence();
+        while (rs.next()) {
+            Object[] row = rs.getRow();
+
+            double x = (Double) row[13];
+            double y = Math.abs((Double) row[14] * i) + 1;
+            double x_h = x;
+            double x_l = x;
+            double y_h = y;// y + (Double) row[15];
+            double y_l = y;// y - (Double) row[15];
+            xyIntervalSeries.add(x, x_l, x_h, y, y_l, y_h);
+        }
+        data.addSeries(xyIntervalSeries);
+        return data;
     }
     
     public XYIntervalSeriesCollection getPlotPoints() throws IOException {
