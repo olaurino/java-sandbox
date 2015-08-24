@@ -25,11 +25,30 @@ public class AppTest extends UISpecTestCase {
         mainWindow = getMainWindow();
         desktop = mainWindow.getDesktop();
 
+        // Note:
+        //   I haven't dug too much into this - these tests fail intermittently with the
+        // error message listed below. It looks related to race conditions between
+        // starting the samp server and the spec4j window interceptor, probably fixable 
+        // by waiting for a successful startup/shutdown - but definitely something to look
+        // more into for setting up Iris GUI tests (I would have a dummy service under the 
+        // GUI so we don't have to worry about the actual setup).
+      
+//        Aug 24, 2015 11:56:54 AM org.astrogrid.samp.httpd.HttpServer start
+//        INFO: Server http://127.0.0.1:43889 starting
+//        Tests run: 5, Failures: 1, Errors: 0, Skipped: 4, Time elapsed: 12.887 sec <<< FAILURE!
+//        setUpClass on instance null(cfa.vo.AppTest)(cfa.vo.AppTest)  Time elapsed: 12.839 sec  <<< FAILURE!
+//        java.lang.AssertionError: No window was shown (timeout expired)
+//            at org.testng.Assert.fail(Assert.java:89)
+//            at org.uispec4j.assertion.testlibrairies.TestNGLibrary.fail(TestNGLibrary.java:7)
+//            at org.uispec4j.assertion.testlibrairies.AssertAdapter.fail(AssertAdapter.java:11)
+//            at org.uispec4j.interception.handlers.ShownInterceptionDetectionHandler.waitWindow(ShownInterceptionDetectionHandler.java:39)
+//            at org.uispec4j.interception.WindowInterceptor.run(WindowInterceptor.java:324)
+//            at org.uispec4j.interception.WindowInterceptor.run(WindowInterceptor.java:290)
+//            at cfa.vo.AppTest.setUpClass(AppTest.java:54)
 
         Window samphub = WindowInterceptor.run(new Trigger() {
             @Override
             public void run() throws Exception {
-
             }
         });
 
