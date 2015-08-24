@@ -114,12 +114,25 @@ public class JFreePrototype extends ApplicationFrame {
 
     private void setScatterPlot(XYPlot xyPlot) throws Exception {
         XYIntervalSeriesCollection data1 = table.getPlotPoints();
+        
         XYErrorRenderer renderer1 = new XYErrorRenderer();
         renderer1.setBaseToolTipGenerator(xyToolTip);
         renderer1.setDrawXError(true);
         renderer1.setDrawYError(true);
         xyPlot.setDataset(0, data1);
         xyPlot.setRenderer(0, renderer1);
+        
+        for (int i=0; i<20; i++) {
+            XYIntervalSeriesCollection data = table.getPlotPoints(i);
+            
+            renderer1.setBaseToolTipGenerator(xyToolTip);
+            XYErrorRenderer renderer = new XYErrorRenderer();
+            renderer.setBaseToolTipGenerator(xyToolTip);
+            renderer.setDrawXError(true);
+            renderer.setDrawYError(true);
+            xyPlot.setDataset(i, data);
+            xyPlot.setRenderer(i, renderer);
+        }
     }
     
     /**

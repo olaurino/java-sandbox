@@ -1,4 +1,4 @@
-package cfa.vo.sandbox.gui.samples;
+package cfa.vo.sandbox.gui;
 
 import java.awt.EventQueue;
 import java.awt.RenderingHints;
@@ -21,6 +21,7 @@ import org.jfree.data.xy.XYIntervalSeriesCollection;
 
 import cfa.vo.sandbox.gui.stil.StilPrototype;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
 import javax.swing.JButton;
@@ -33,86 +34,50 @@ import javax.swing.SpinnerListModel;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import cfa.vo.iris.IrisApplication;
+import cfa.vo.iris.IWorkspace;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class PlotterView extends JInternalFrame {
     
-    final ChartPanel plotter;
-    final ChartPanel residuals;
+    private StiltsDemoView plotter;
+    private ChartPanel residuals;
     private JTextField txtXposistion;
     private JTextField txtYposition;
+    private IWorkspace ws;
+    private IrisApplication app;
     
     private StilPrototype stil;
     
-    private JFreeChart fillContent() throws IOException {
-        try {
-            stil = new StilPrototype("resources/data/SEDSample1");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-        XYPlot xyPlot = new XYPlot();
-        xyPlot.setBackgroundPaint(Color.white);
-        xyPlot.setDomainGridlinePaint(Color.LIGHT_GRAY);
-        xyPlot.setRangeGridlinePaint(Color.LIGHT_GRAY);
-
-        XYIntervalSeriesCollection data = stil.getPlotPoints();
-        XYErrorRenderer renderer = new XYErrorRenderer();
-        renderer.setDrawXError(true);
-        renderer.setDrawYError(true);
-        xyPlot.setDataset(0, data);
-        xyPlot.setRenderer(0, renderer);
-
-        NumberAxis domainAxis = new LogarithmicAxis("X Data Label");
-        NumberAxis rangeAxis = new LogarithmicAxis("Y Data Label");
-
-        xyPlot.setDomainAxis(domainAxis);
-        xyPlot.setRangeAxis(rangeAxis);
-        xyPlot.mapDatasetToDomainAxis(0, 0);
-        xyPlot.mapDatasetToRangeAxis(0, 0);
-
-        final JFreeChart chart = new JFreeChart("", xyPlot);
-        chart.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        
-        return chart;
-    }
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    PlotterView frame = new PlotterView();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
+    
     /**
      * Create the frame.
+     * @param ws 
+     * @param app 
+     * @param string 
      */
-    public PlotterView() throws Exception {
-        setIcon(true);
-        setMaximum(true);
+    public PlotterView(String title, IrisApplication app, IWorkspace ws) throws Exception {
+        setTitle(title);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setSelected(true);
+        setResizable(true);
+        setClosable(true);
+        toFront();
+        
         setMaximizable(true);
         setIconifiable(true);
         setBounds(100, 100, 1096, 800);
         
-        plotter = new ChartPanel(fillContent());
-        plotter.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        plotter.setBackground(Color.WHITE);
-        plotter.setVisible(true);
+        this.ws = ws;
+        this.app = app;
         
         residuals = new ChartPanel((JFreeChart) null);
         residuals.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
         residuals.setBackground(Color.WHITE);
         residuals.setVisible(true);
+        
+        plotter = new StiltsDemoView((String) null, app, ws);
         
         JButton btnReset = new JButton("Reset");
         
@@ -158,8 +123,8 @@ public class PlotterView extends JInternalFrame {
                 .addGroup(groupLayout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                        .addComponent(plotter, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1062, Short.MAX_VALUE)
-                        .addComponent(residuals, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1062, Short.MAX_VALUE)
+                        .addComponent(plotter, GroupLayout.DEFAULT_SIZE, 1062, Short.MAX_VALUE)
+                        .addComponent(residuals, GroupLayout.DEFAULT_SIZE, 1062, Short.MAX_VALUE)
                         .addGroup(groupLayout.createSequentialGroup()
                             .addComponent(btnReset)
                             .addPreferredGap(ComponentPlacement.RELATED)
@@ -195,39 +160,22 @@ public class PlotterView extends JInternalFrame {
                 .addGroup(groupLayout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                        .addGroup(groupLayout.createSequentialGroup()
-                            .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-                                .addComponent(txtXposistion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(chckbxAbsolute)
-                                .addComponent(txtYposition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnUnits)
-                                .addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(ComponentPlacement.RELATED))
-                        .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                            .addGroup(groupLayout.createSequentialGroup()
-                                .addComponent(basicArrowButton_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.RELATED))
-                            .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                                .addGroup(groupLayout.createSequentialGroup()
-                                    .addComponent(basicArrowButton_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(ComponentPlacement.RELATED))
-                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                                    .addGroup(groupLayout.createSequentialGroup()
-                                        .addComponent(basicArrowButton_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(ComponentPlacement.RELATED))
-                                    .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                            .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                                                .addComponent(button_1)
-                                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                                                    .addComponent(button, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(btnReset, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                            .addGap(12))
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                            .addComponent(basicArrowButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(ComponentPlacement.RELATED)))))))
-                    .addComponent(plotter, GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
-                    .addGap(18)
+                        .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+                            .addComponent(txtXposistion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chckbxAbsolute)
+                            .addComponent(txtYposition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUnits)
+                            .addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(basicArrowButton_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(basicArrowButton_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(basicArrowButton_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(button_1)
+                        .addComponent(button, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnReset, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(basicArrowButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(ComponentPlacement.RELATED)
+                    .addComponent(plotter, GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+                    .addPreferredGap(ComponentPlacement.UNRELATED)
                     .addComponent(residuals, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(ComponentPlacement.RELATED)
                     .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
@@ -301,6 +249,7 @@ public class PlotterView extends JInternalFrame {
         mnView.add(mntmCoplot);
 
     }
+    
     private static void addPopup(Component component, final JPopupMenu popup) {
     }
 }

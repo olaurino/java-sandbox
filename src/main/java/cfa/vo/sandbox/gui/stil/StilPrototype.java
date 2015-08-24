@@ -25,10 +25,6 @@ public class StilPrototype {
         // Or just StarTableFactory and ignore the previous step
         VOTableBuilder builder = new VOTableBuilder();
         this.table = builder.makeStarTable(dataSource, false, StoragePolicy.PREFER_MEMORY);
-        
-        for (int i=0; i<table.getColumnCount(); i++) {
-            System.out.println(">>> " + table.getColumnInfo(i));
-        }
     }
     
     public StarTable getTable() {

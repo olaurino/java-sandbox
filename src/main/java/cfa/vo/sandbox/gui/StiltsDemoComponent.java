@@ -54,7 +54,7 @@ public class StiltsDemoComponent implements IrisComponent {
     }
 
     private class MenuItems extends ArrayList<IMenuItem> {
-        private StiltsDemoView view;
+        private PlotterView view;
 
         public MenuItems() {
             super();
@@ -62,7 +62,11 @@ public class StiltsDemoComponent implements IrisComponent {
                 @Override
                 public void onClick() {
                     if (view == null) {
-                        view = new StiltsDemoView("StiltsDemo", app, ws);
+                        try {
+                            view = new PlotterView("StiltsDemo", app, ws);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                         ws.getDesktop().add(view);
                     }
                     GUIUtils.moveToFront(view);

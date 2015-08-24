@@ -2,6 +2,7 @@ package cfa.vo.sandbox.gui.jfree;
 
 import org.jfree.ui.RefineryUtilities;
 
+import cfa.vo.sandbox.gui.samples.MetadataBrowserView;
 import cfa.vo.sandbox.gui.stil.StilPrototype;
 import cfa.vo.sandbox.gui.stil.StiltsPrototype;
 
@@ -14,16 +15,20 @@ public class Prototype {
      * 
      */
     public static void main(final String[] args) throws Exception {
-        final StilPrototype stil = new StilPrototype("/export/eholum/notes/SEDSample");
+        final StilPrototype stil = new StilPrototype("/export/eholum/notes/SEDSample1");
         
-        final StiltsPrototype jstilts = new StiltsPrototype("Prototype", stil);
-        jstilts.pack();
-        RefineryUtilities.centerFrameOnScreen(jstilts);
-        jstilts.setVisible(true);
+//        final StiltsPrototype jstilts = new StiltsPrototype("Prototype", stil);
+//        jstilts.pack();
+//        RefineryUtilities.centerFrameOnScreen(jstilts);
+//        jstilts.setVisible(true);
 
-        final JFreePrototype jfree = new JFreePrototype("Prototype", stil);
-        jfree.pack();
-        RefineryUtilities.centerFrameOnScreen(jfree);
-        jfree.setVisible(true);
+//        final JFreePrototype jfree = new JFreePrototype("Prototype", stil);
+//        jfree.pack();
+//        RefineryUtilities.centerFrameOnScreen(jfree);
+//        jfree.setVisible(true);
+        
+        final MetadataBrowserView mb = new MetadataBrowserView();
+        mb.pack();
+        mb.setVisible(true);
     }
 }

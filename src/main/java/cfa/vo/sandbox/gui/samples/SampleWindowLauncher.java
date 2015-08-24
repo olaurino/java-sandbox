@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JDesktopPane;
 
+import cfa.vo.sandbox.gui.PlotterView;
+
 public class SampleWindowLauncher {
 
     private JFrame frame;
@@ -52,7 +54,7 @@ public class SampleWindowLauncher {
         metadataBrowserView.setVisible(false);
         desktopPane.add(metadataBrowserView);
         
-        PlotterView plotterView = new PlotterView();
+        PlotterView plotterView = new PlotterView(null, null, null);
         plotterView.setBounds(12, 12, 1096, 725);
         plotterView.setVisible(true);
         desktopPane.add(plotterView);
