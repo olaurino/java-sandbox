@@ -4,6 +4,7 @@ import cfa.vo.iris.AbstractIrisApplication;
 import cfa.vo.iris.IrisComponent;
 import cfa.vo.sandbox.gui.JFreeDemoComponent;
 import cfa.vo.sandbox.gui.StiltsDemoComponent;
+import cfa.vo.sandbox.gui.fitter.FittingToolComponent;
 
 import javax.swing.*;
 
@@ -61,6 +62,7 @@ public class App extends AbstractIrisApplication
         components.add(new GroovyConsoleComponent());
         components.add(new JFreeDemoComponent());
         components.add(new StiltsDemoComponent());
+	components.add(new FittingToolComponent());
         Logger.getLogger("").setLevel(Level.ALL);
     }
 
