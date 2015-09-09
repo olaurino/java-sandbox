@@ -39,9 +39,9 @@ public class IOFactory {
         }
     }
 
-    public static List<Point> getPoints(Spectrum s) {
-
-    }
+//    public static List<Point> getPoints(Spectrum s) {
+//
+//    }
 
     private static List<TableElement> asList(NodeList n) {
         return n.getLength() == 0 ?
