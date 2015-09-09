@@ -31,6 +31,12 @@
           <groupId>cfa.vo</groupId>
           <artifactId>iris-common</artifactId>
           <version>3.0-SNAPSHOT</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>stil</groupId>
+                  <artifactId>stil</artifactId>
+              </exclusion>
+          </exclusions>
       </dependency>
       <dependency>
           <groupId>org.codehaus.groovy</groupId>
@@ -43,6 +49,12 @@
           <groupId>star.bristol.ac.uk</groupId>
           <artifactId>STILTS</artifactId>
           <version>3.0-12</version>
+      </dependency>
+
+      <dependency>
+          <groupId>stil</groupId>
+          <artifactId>stil</artifactId>
+          <version>vodom</version>
       </dependency>
   </dependencies>
 
