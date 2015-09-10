@@ -1,5 +1,10 @@
 package cfa.vo.speclib.domain;
 
+import cfa.vo.speclib.domain.model.CoordSys;
+import cfa.vo.speclib.domain.model.Curation;
+import cfa.vo.speclib.domain.model.Point;
+import cfa.vo.speclib.domain.model.Spectrum;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,5 +31,10 @@ public class SpectrumImpl implements Spectrum {
     @Override
     public Curation getCuration() {
         return proxy.getCuration();
+    }
+
+    @Override
+    public CoordSys getCoordSys() {
+        return proxy.getCoordSys();
     }
 }

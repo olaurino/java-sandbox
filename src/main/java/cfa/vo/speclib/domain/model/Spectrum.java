@@ -1,4 +1,4 @@
-package cfa.vo.speclib.domain;
+package cfa.vo.speclib.domain.model;
 
 import java.util.List;
 
@@ -8,4 +8,5 @@ import java.util.List;
 public interface Spectrum {
     List<Point> getPoints();
     Curation getCuration();
+    CoordSys getCoordSys();
 }

@@ -1,9 +1,9 @@
 package cfa.vo;
 
-import cfa.vo.speclib.domain.Curation;
-import cfa.vo.speclib.domain.Point;
+import cfa.vo.speclib.domain.model.Curation;
+import cfa.vo.speclib.domain.model.Point;
 import cfa.vo.speclib.domain.SpectralFactory;
-import cfa.vo.speclib.domain.Spectrum;
+import cfa.vo.speclib.domain.model.Spectrum;
 import uk.ac.starlink.table.StarTable;
 
 import java.io.File;
@@ -32,6 +32,9 @@ public class TestSTIL {
 
         double spectral = point.getData().getSpectralAxis().getValue();
         System.out.println(spectral);
+
+        double redshift = point.getCoordSys().getSpectralFrame().getRedshift();
+        System.out.println(redshift);
 
         StarTable table = SpectralFactory.getStarTable(spectrum);
         assert table != null;

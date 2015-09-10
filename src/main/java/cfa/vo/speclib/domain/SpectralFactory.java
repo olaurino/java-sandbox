@@ -2,6 +2,8 @@ package cfa.vo.speclib.domain;
 
 import cfa.vo.speclib.StilDynamicProxy;
 import cfa.vo.speclib.Utils;
+import cfa.vo.speclib.domain.model.Point;
+import cfa.vo.speclib.domain.model.Spectrum;
 import uk.ac.starlink.table.StarTable;
 import uk.ac.starlink.votable.TableElement;
 

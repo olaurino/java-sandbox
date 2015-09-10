@@ -76,7 +76,7 @@ public class StilDynamicProxy implements InvocationHandler {
 
 
         if (FIELDorPARAM instanceof ParamElement) {
-            return ((ParamElement) FIELDorPARAM).getValue();
+            return ((ParamElement) FIELDorPARAM).getObject();
         }
 
         // At this point of the implementation, a utype must have been identified for the method.

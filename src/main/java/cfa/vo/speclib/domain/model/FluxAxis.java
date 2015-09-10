@@ -1,4 +1,4 @@
-package cfa.vo.speclib.domain;
+package cfa.vo.speclib.domain.model;
 
 import cfa.vo.speclib.UTYPE;
 
