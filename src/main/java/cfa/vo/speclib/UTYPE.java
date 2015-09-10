@@ -12,4 +12,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface UTYPE {
     String value();
+    //TODO Add default value
 }

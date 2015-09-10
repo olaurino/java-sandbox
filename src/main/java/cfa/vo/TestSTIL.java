@@ -1,13 +1,12 @@
 package cfa.vo;
 
-import cfa.vo.speclib.Curation;
-import cfa.vo.speclib.IOFactory;
-import cfa.vo.speclib.Spectrum;
-import org.xml.sax.SAXException;
+import cfa.vo.speclib.domain.Curation;
+import cfa.vo.speclib.domain.Point;
+import cfa.vo.speclib.domain.SpectralFactory;
+import cfa.vo.speclib.domain.Spectrum;
+import uk.ac.starlink.table.StarTable;
 
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -15,14 +14,26 @@ import java.util.List;
  */
 public class TestSTIL {
 
-    public static void main(String[] args) throws IOException, SAXException, XPathExpressionException {
-        File f = new File("/Users/olaurino/asdcMulti.vot");
-        List<Spectrum> spectra = IOFactory.getSpectra(f);
-        Spectrum s = spectra.get(0);
-        Curation c = s.getCuration();
-        String publisher = c.getPublisher();
-        assert "ASDC".equals(publisher);
-        double[] spectral = s.getData().getSpectralAxis().getValue();
+    public static void main(String[] args) throws Exception {
+        File f = new File("C:/Users/Omar/asdcMulti.vot.xml");
+        List<Spectrum> spectra = SpectralFactory.getSpectra(f, "");
+
+        Spectrum spectrum = spectra.get(0);
+        Point point = spectrum.getPoints().get(0);
+        Curation pointCuration = point.getCuration();
+        String pointCurationPublisher = pointCuration.getPublisher();
+
+        assert "ASDC".equals(pointCurationPublisher);
+        assert "ASDC".equals(spectrum.getCuration().getPublisher());
+
+        // these should be the same object as they are cached by the implementation of StilDynamicProxy
+        assert spectrum.getCuration() == pointCuration;
+        assert pointCuration == spectrum.getPoints().get(1).getCuration();
+
+        double spectral = point.getData().getSpectralAxis().getValue();
         System.out.println(spectral);
+
+        StarTable table = SpectralFactory.getStarTable(spectrum);
+        assert table != null;
     }
 }

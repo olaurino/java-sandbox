@@ -1,4 +1,4 @@
-package cfa.vo.speclib;
+package cfa.vo.speclib.domain;
 
 /**
  * Created by olaurino on 9/9/15.
