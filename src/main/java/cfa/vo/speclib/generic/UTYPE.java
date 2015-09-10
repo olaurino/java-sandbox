@@ -1,4 +1,4 @@
-package cfa.vo.speclib;
+package cfa.vo.speclib.generic;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

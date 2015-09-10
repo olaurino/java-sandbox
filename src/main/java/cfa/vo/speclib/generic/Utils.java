@@ -1,4 +1,4 @@
-package cfa.vo.speclib;
+package cfa.vo.speclib.generic;
 
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;

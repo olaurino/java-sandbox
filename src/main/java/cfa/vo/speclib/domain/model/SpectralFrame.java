@@ -1,6 +1,6 @@
 package cfa.vo.speclib.domain.model;
 
-import cfa.vo.speclib.UTYPE;
+import cfa.vo.speclib.generic.UTYPE;
 
 /**
  * Created by Omar on 9/10/2015.
