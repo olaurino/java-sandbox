@@ -51,5 +51,15 @@ public class TestSTIL {
         point = spectrum.getPoints().get(1);
         assert 2.1 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[0];
         assert 2.2 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[1];
+
+        spectrum.getCuration().setPublisher("Foo");
+        assert "Foo" == spectrum.getCuration().getPublisher();
+
+        point.getData().getSpectralAxis().setValue(11111);
+        assert 11111 == point.getData().getSpectralAxis().getValue();
+
+        assert null == point.getFoo();
+        point.setFoo(1.0);
+        assert 1.0 == point.getFoo();
     }
 }

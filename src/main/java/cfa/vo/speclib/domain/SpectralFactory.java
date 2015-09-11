@@ -4,8 +4,10 @@ import cfa.vo.speclib.domain.model.Sed;
 import cfa.vo.speclib.domain.model.Spectrum;
 import cfa.vo.speclib.domain.model.SpectrumPoint;
 import cfa.vo.speclib.generic.Cache;
+import cfa.vo.speclib.generic.RowWrapperStarTable;
 import cfa.vo.speclib.generic.StarTableInvocationHandler;
 import cfa.vo.speclib.generic.Utils;
+import uk.ac.starlink.table.RowListStarTable;
 import uk.ac.starlink.table.StarTable;
 import uk.ac.starlink.votable.TableElement;
 import uk.ac.starlink.votable.VOStarTable;
@@ -22,13 +24,16 @@ import java.util.List;
 public class SpectralFactory {
     public static List<Spectrum> getSpectra(File f, String prefix) {
         try {
+            //FIXME Works only for VOTable.
             List<TableElement> nodes = Utils.getTableElements(f);
 
             List<Spectrum> spectra = new ArrayList();
             Class[] ifaces = new Class[]{SpectrumPoint.class};
 
             for (TableElement node: nodes) {
-                StarTable table = new VOStarTable(node);
+                StarTable orig = new VOStarTable(node);
+                RowListStarTable editable = Utils.getRowListStarTable(orig);
+                RowWrapperStarTable table = new RowWrapperStarTable(editable);
                 Cache cache = new Cache();
                 Spectrum proxy = (Spectrum) Proxy.newProxyInstance(SpectralFactory.class.getClassLoader(), new Class[]{Spectrum.class}, new StarTableInvocationHandler(cache, table, prefix, null));
                 SpectrumImpl spectrum = new SpectrumImpl(proxy);

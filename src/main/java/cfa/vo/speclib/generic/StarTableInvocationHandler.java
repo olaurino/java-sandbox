@@ -1,9 +1,7 @@
 package cfa.vo.speclib.generic;
 
 import org.xml.sax.SAXException;
-import uk.ac.starlink.table.ColumnInfo;
-import uk.ac.starlink.table.DescribedValue;
-import uk.ac.starlink.table.StarTable;
+import uk.ac.starlink.table.*;
 
 import javax.naming.OperationNotSupportedException;
 import javax.xml.xpath.XPath;
@@ -14,7 +12,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,18 +19,16 @@ import java.util.Map;
  */
 public class StarTableInvocationHandler implements InvocationHandler {
 
-    private StarTable table;
+    private RowWrapperStarTable table;
     private String prefix;
     private Long pointId;
     //TODO check if xpath is thread safe and make it static if possible
     private XPath xPath = XPathFactory.newInstance().newXPath();
     private Cache cache;
     private Map<String, Object> transients = new HashMap<String, Object>();
-    //FIXME Introducing tablePosition is a workaround to a possible issue in stil that prevents xpath from being applied to non-root elements.
-    private Integer tablePosition;
 
     // Each point has a Proxy that shares the same TableElement, but with a different pointId
-    public StarTableInvocationHandler(Cache cache, StarTable table, String prefix, Long pointId) throws IOException, SAXException {
+    public StarTableInvocationHandler(Cache cache, RowWrapperStarTable table, String prefix, Long pointId) throws IOException, SAXException {
         this.table = table;
         this.prefix = prefix + (prefix.isEmpty()? "" : ":");
         this.pointId = pointId;
@@ -78,58 +73,57 @@ public class StarTableInvocationHandler implements InvocationHandler {
             return getValueByUtype(prefix+utype);
         }
 
-        // If it is a setter (and not transient) and it does not get a primitive argument, throw and exception
+        // If it is a setter (and not transient) and it does not get a primitive argument, throw an exception
         // This implementation does not allow to set structured objects, but only primitive types in the leaves.
-        if (!isGetter && Utils.isPrimitive(args[0].getClass())) {
+        if (!isGetter && !Utils.isPrimitive(args[0].getClass())) {
             throw new OperationNotSupportedException("This implementation does not allow to set structured objects, but only primitive types in the leaves.");
         }
 
-//        // Finally, if it is a setter (and not transient, and does get a primitive argument), set the value
-//        if (!isGetter) {
-//            String utype = Utils.getUtypeForMethod(method);
-//            setValueByUtype(utype, args[0]);
-//        }
+        // Finally, if it is a setter (and not transient, and does get a primitive argument), set the value
+        if (!isGetter) {
+            setValue(method, args[0]);
+        }
 
         return null;
 
     }
 
-//    private void setValueByUtype(String utype, Object value) throws XPathExpressionException, IllegalAccessException {
-//        // First, check if there is already a node with this UTYPE
-//        Node FIELDorPARAM = cache.getNode(utype);
-//        VODocument doc = (VODocument) element.getOwnerDocument();
-//
-//        if (FIELDorPARAM == null) {
-//            String expression = String.format("//TABLE[%s]//*[@utype='%s%s']", tablePosition + 1, prefix, utype);
-//            FIELDorPARAM = (Node) xPath.evaluate(expression, doc, XPathConstants.NODE);
-//
-//            if (FIELDorPARAM != null) {
-//                cache.storeNode(utype, FIELDorPARAM);
-//            }
-//        }
-//
-//        // If there is no existing element, then create one.
-//
-//        // If the request comes from a container object, create and append a new PARAM
-//        ParamElement param = doc
-//
-//        if (FIELDorPARAM instanceof ParamElement) {
-//            // a child instance must not set a PARAM
-//            if (pointId != null) {
-//                throw new IllegalAccessException("a child instance must not set a PARAM");
-//            } else {
-//                // Append a new column
-//                // First get an handle on the
-//            }
-//        }
-//    }
+    private void setValue(Method method, Object value) throws Exception {
+        String utype = prefix+Utils.getUtypeForMethod(method);
+        // if this is a container, get or create a Parameter and sets its value
+        if (pointId == null) {
+            DescribedValue parameter = Utils.findParamByUtype(table, utype);
+            if (parameter != null) {
+                parameter.setValue(value);
+            } else {
+                DefaultValueInfo vinfo = new DefaultValueInfo();
+                //FIXME need more stuff, e.g. UCD, Unit
+                vinfo.setUtype(utype);
+                vinfo.setContentClass(value.getClass());
+                parameter = new DescribedValue(vinfo);
+                parameter.setValue(value);
+            }
+            return;
+        }
+
+        // if this is a child (point), get or create the Column corresponding to the utype and set the value for this point's row
+        Integer columnIndex = Utils.findColumnIndexByUtype(table, utype);
+        if (columnIndex != null) {
+            table.setCell(pointId, columnIndex, value);
+        } else {
+            DefaultValueInfo vinfo = new DefaultValueInfo(Utils.getFieldName(method));
+            //FIXME need more stuff, e.g. UCD, Unit
+            vinfo.setUtype(utype);
+            vinfo.setContentClass(value.getClass());
+            table.setCellInNewColumn(pointId, value, vinfo);
+        }
+    }
 
     //TODO All the complexity of the deserialization rules should go in this method.
     private Object getValueByUtype(String utype) throws XPathExpressionException, IOException {
-        for (DescribedValue param: (List<DescribedValue>) table.getParameters()) {
-            if (utype.equals(param.getInfo().getUtype())) {
-                return param.getValue();
-            }
+        DescribedValue param = Utils.findParamByUtype(table, utype);
+        if (param != null) {
+            return param.getValue();
         }
 
         // At this point of the implementation, a utype must have been identified for the method.
@@ -144,11 +138,9 @@ public class StarTableInvocationHandler implements InvocationHandler {
             return null;
         }
 
-        for (int i=0; i<table.getColumnCount(); i++) {
-            ColumnInfo colInfo = table.getColumnInfo(i);
-            if (utype.equals(colInfo.getUtype())) {
-                return table.getCell(pointId, i);
-            }
+        Integer columnIndex = Utils.findColumnIndexByUtype(table, utype);
+        if (columnIndex != null) {
+            return table.getCell(pointId, columnIndex);
         }
 
         return null;

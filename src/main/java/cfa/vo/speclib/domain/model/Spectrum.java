@@ -5,9 +5,6 @@ import java.util.List;
 /**
  * Created by Omar on 9/10/2015.
  */
-public interface Spectrum {
-    Curation getCuration();
-    Characterisation getCharacterisation();
-    CoordSys getCoordSys();
+public interface Spectrum extends SpectrumMeta {
     List<SpectrumPoint> getPoints();
 }

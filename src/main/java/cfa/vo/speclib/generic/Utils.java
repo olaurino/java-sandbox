@@ -3,8 +3,7 @@ package cfa.vo.speclib.generic;
 import cfa.vo.speclib.domain.SpectrumImpl;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import uk.ac.starlink.table.StarTable;
-import uk.ac.starlink.table.StoragePolicy;
+import uk.ac.starlink.table.*;
 import uk.ac.starlink.votable.TableElement;
 import uk.ac.starlink.votable.VODocument;
 import uk.ac.starlink.votable.VOElementFactory;
@@ -20,7 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.*;
+import java.util.AbstractList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by olaurino on 9/9/15.
@@ -81,7 +82,16 @@ public class Utils {
                 return getter.isAnnotationPresent(Transient.class);
             }
         }
-        throw new Exception("Beans should have a getter if they have a setter");
+        throw new Exception("Beans should have a getter if they have an annonated setter");
+    }
+
+    public static DescribedValue findParamByUtype(StarTable table, String utype) {
+        for (DescribedValue param: (List<DescribedValue>) table.getParameters()) {
+            if (utype.equals(param.getInfo().getUtype())) {
+                return param;
+            }
+        }
+        return null;
     }
 
     public static boolean returnsPrimitive(Method method) {
@@ -135,6 +145,32 @@ public class Utils {
     private static List<TableElement> asList(NodeList n) {
         return n.getLength() == 0 ?
                 Collections.<TableElement>emptyList() : new NodeListWrapper(n);
+    }
+
+    public static Integer findColumnIndexByUtype(StarTable table, String utype) {
+        for (int i=0; i<table.getColumnCount(); i++) {
+            ColumnInfo colInfo = table.getColumnInfo(i);
+            if (utype.equals(colInfo.getUtype())) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public static RowListStarTable getRowListStarTable(StarTable orig) throws IOException {
+        RowListStarTable editable = new RowListStarTable(orig);
+        RowSequence rowSequence = orig.getRowSequence();
+        RowSequence rseq = rowSequence;
+        try {
+            while ( rseq.next() ) {
+                Object[] row = rseq.getRow();
+                editable.addRow(row);
+            }
+        }
+        finally {
+            rseq.close();
+        }
+        return editable;
     }
 
     private static final class NodeListWrapper extends AbstractList<TableElement> {
