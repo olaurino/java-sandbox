@@ -1,5 +1,6 @@
 package cfa.vo.speclib.generic;
 
+import cfa.vo.speclib.domain.SpectrumImpl;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.ac.starlink.table.StarTable;
@@ -19,14 +20,13 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.AbstractList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by olaurino on 9/9/15.
  */
 public class Utils {
+
     public static String getFieldName(Method method) throws Exception {
         try {
             Class<?> clazz = method.getDeclaringClass();
@@ -44,6 +44,56 @@ public class Utils {
         }
 
         throw new Exception("not an accessor");
+    }
+
+    public static boolean isGetter(Method method) throws Exception {
+        Class<?> clazz = method.getDeclaringClass();
+        BeanInfo info = Introspector.getBeanInfo(clazz);
+        PropertyDescriptor[] props = info.getPropertyDescriptors();
+        for (PropertyDescriptor pd : props) {
+            if (method.getName().equals(pd.getReadMethod().getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isSetter(Method method) throws Exception {
+        Class<?> clazz = method.getDeclaringClass();
+        BeanInfo info = Introspector.getBeanInfo(clazz);
+        PropertyDescriptor[] props = info.getPropertyDescriptors();
+        for (PropertyDescriptor pd : props) {
+            if (method.getName().equals(pd.getWriteMethod().getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isTransient(Method method) throws Exception {
+        String name = getFieldName(method);
+        Class<?> clazz = method.getDeclaringClass();
+        BeanInfo info = Introspector.getBeanInfo(clazz);
+        PropertyDescriptor[] props = info.getPropertyDescriptors();
+        for (PropertyDescriptor pd : props) {
+            if (name.equals(pd.getName())) {
+                Method getter = pd.getReadMethod();
+                return getter.isAnnotationPresent(Transient.class);
+            }
+        }
+        throw new Exception("Beans should have a getter if they have a setter");
+    }
+
+    public static boolean returnsPrimitive(Method method) {
+        return isPrimitive(method.getReturnType());
+    }
+
+    public static boolean isPrimitive(Class clazz) {
+        return clazz.isPrimitive()
+                || String.class == clazz
+                || Number.class.isAssignableFrom(clazz)
+                || (clazz.isArray() && isPrimitive(clazz.getComponentType()))
+                ;
     }
 
     public static String getUtypeForMethod(Method method) throws Exception {
@@ -72,8 +122,11 @@ public class Utils {
 
     public static StarTable getStarTableforProxy(Object proxy) throws Exception {
         try {
+            if (proxy instanceof SpectrumImpl) {
+                proxy = ((SpectrumImpl) proxy).getProxy();
+            }
             Object handler = Proxy.getInvocationHandler(proxy);
-            return ((StilDynamicProxy) handler).getStarTable();
+            return ((StarTableInvocationHandler) handler).getStarTable();
         } catch (Throwable ex) {
             throw new Exception("could not get StarTable from proxy");
         }

@@ -2,13 +2,13 @@ package cfa.vo;
 
 import cfa.vo.speclib.domain.SpectralFactory;
 import cfa.vo.speclib.domain.model.Curation;
-import cfa.vo.speclib.domain.model.Point;
+import cfa.vo.speclib.domain.model.Sed;
 import cfa.vo.speclib.domain.model.Spectrum;
+import cfa.vo.speclib.domain.model.SpectrumPoint;
 import uk.ac.starlink.table.StarTable;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
 
 /**
  * Created by olaurino on 9/4/15.
@@ -18,25 +18,38 @@ public class TestSTIL {
     public static void main(String[] args) throws Exception {
         URL url = TestSTIL.class.getResource("/data/asdcMulti.xml");
         File f = new File(url.toURI());
-        List<Spectrum> spectra = SpectralFactory.getSpectra(f, "spec");
+        Sed sed = SpectralFactory.getSed(f, "spec");
 
-        Spectrum spectrum = spectra.get(0);
-        Point point = spectrum.getPoints().get(0);
-        Curation pointCuration = point.getCuration();
+        Spectrum spectrum = sed.getSpectra().get(0);
+        SpectrumPoint point = spectrum.getPoints().get(0);
+        Curation pointCuration = point.getSpectrum().getCuration();
         String pointCurationPublisher = pointCuration.getPublisher();
 
         assert "ASDC".equals(pointCurationPublisher);
         assert "ASDC".equals(spectrum.getCuration().getPublisher());
 
-        // these should be the same object as they are cached by the implementation of StilDynamicProxy
-        assert spectrum.getCuration() == pointCuration;
-        assert pointCuration == spectrum.getPoints().get(1).getCuration();
-
         assert 5.037134225007662E-11 == point.getData().getSpectralAxis().getValue();
 
-        assert 0.0f == point.getCoordSys().getSpectralFrame().getRedshift();
+        assert 0.0f == point.getSpectrum().getCoordSys().getSpectralFrame().getRedshift();
 
         StarTable table = SpectralFactory.getStarTable(spectrum);
         assert table != null;
+
+        assert 187.25 == spectrum.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[0];
+        assert 2.17 == spectrum.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[1];
+
+        url = TestSTIL.class.getResource("/data/simple.xml");
+        f = new File(url.toURI());
+        spectrum = SpectralFactory.getSpectra(f, "spec").get(0);
+        point = spectrum.getPoints().get(0);
+
+        assert null == point.getSpectrum().getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue();
+
+        assert 1.1 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[0];
+        assert 1.2 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[1];
+
+        point = spectrum.getPoints().get(1);
+        assert 2.1 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[0];
+        assert 2.2 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[1];
     }
 }
