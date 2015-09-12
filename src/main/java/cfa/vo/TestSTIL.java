@@ -1,6 +1,7 @@
 package cfa.vo;
 
 import cfa.vo.speclib.domain.SpectralFactory;
+import cfa.vo.speclib.domain.SpectrumImpl;
 import cfa.vo.speclib.domain.model.Curation;
 import cfa.vo.speclib.domain.model.Sed;
 import cfa.vo.speclib.domain.model.Spectrum;
@@ -41,6 +42,9 @@ public class TestSTIL {
         url = TestSTIL.class.getResource("/data/simple.xml");
         f = new File(url.toURI());
         spectrum = SpectralFactory.getSpectra(f, "spec").get(0);
+
+        assert 2 == spectrum.getPoints().size();
+
         point = spectrum.getPoints().get(0);
 
         assert null == point.getSpectrum().getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue();
@@ -61,5 +65,13 @@ public class TestSTIL {
         assert null == point.getFoo();
         point.setFoo(1.0);
         assert 1.0 == point.getFoo();
+
+        point = SpectralFactory.appendPoint((SpectrumImpl) spectrum);
+        assert null == point.getFoo();
+        point.setFoo(1.0);
+        assert 1.0 == point.getFoo();
+
+        assert 3 == spectrum.getPoints().size();
+        assert 3 == SpectralFactory.getStarTable(spectrum).getRowCount();
     }
 }

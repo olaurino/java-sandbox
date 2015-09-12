@@ -4,6 +4,7 @@ import uk.ac.starlink.table.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -139,5 +140,11 @@ public class RowWrapperStarTable implements StarTable {
         StarTable combinedTable = new JoinStarTable( tableSet );
         RowListStarTable newBase = Utils.getRowListStarTable(combinedTable);
         this.setBaseTable(newBase);
+    }
+
+    public void appendRow() {
+        Object[] row = new Object[getColumnCount()];
+        Arrays.fill(row, null);
+        addRow(row);
     }
 }

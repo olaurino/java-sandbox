@@ -146,8 +146,16 @@ public class StarTableInvocationHandler implements InvocationHandler {
         return null;
     }
 
-    public StarTable getStarTable() throws IOException {
+    public RowWrapperStarTable getStarTable() throws IOException {
         return table;
+    }
+
+    public Cache getCache() {
+        return cache;
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 
 }

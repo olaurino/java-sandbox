@@ -67,4 +67,23 @@ public class SpectralFactory {
         sed.getSpectra().addAll(spectra);
         return sed;
     }
+
+    public static SpectrumPoint appendPoint(SpectrumImpl spectrum) throws IntrospectionException {
+        try {
+            StarTableInvocationHandler handler = (StarTableInvocationHandler) Proxy.getInvocationHandler(spectrum.getProxy());
+            Cache cache = handler.getCache();
+            String prefix = handler.getPrefix();
+            RowWrapperStarTable table = handler.getStarTable();
+            Long index = table.getRowCount();
+            table.appendRow();
+
+            SpectrumPoint point = (SpectrumPoint) Proxy.newProxyInstance(SpectralFactory.class.getClassLoader(), new Class[]{SpectrumPoint.class}, new StarTableInvocationHandler(cache, table, prefix, index));
+            spectrum.add(point);
+            return point;
+        } catch (Exception e) {
+            e.printStackTrace();
+            // FIXME what to do here?
+            return null;
+        }
+    }
 }
