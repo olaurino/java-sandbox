@@ -8,7 +8,7 @@ import cfa.vo.speclib.generic.VOModel;
  */
 public interface SpectralAxis {
     @VOModel(
-            utype="Spectrum.Data.FluxAxis.Value",
+            utype="Spectrum.Data.SpectralAxis.Value",
             contentType=Double.class)
     Quantity<Double> getMeasurement();
 }
