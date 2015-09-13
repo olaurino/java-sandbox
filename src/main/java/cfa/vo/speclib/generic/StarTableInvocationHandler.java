@@ -1,7 +1,12 @@
 package cfa.vo.speclib.generic;
 
+import cfa.vo.speclib.generic.quantity.Quantity;
+import cfa.vo.speclib.generic.quantity.QuantityFactory;
+import cfa.vo.speclib.generic.quantity.ValuedColumnInfo;
 import org.xml.sax.SAXException;
-import uk.ac.starlink.table.*;
+import uk.ac.starlink.table.ColumnInfo;
+import uk.ac.starlink.table.DefaultValueInfo;
+import uk.ac.starlink.table.DescribedValue;
 
 import javax.naming.OperationNotSupportedException;
 import javax.xml.xpath.XPath;
@@ -30,17 +35,16 @@ public class StarTableInvocationHandler implements InvocationHandler {
     // Each point has a Proxy that shares the same TableElement, but with a different pointId
     public StarTableInvocationHandler(Cache cache, RowWrapperStarTable table, String prefix, Long pointId) throws IOException, SAXException {
         this.table = table;
-        this.prefix = prefix + (prefix.isEmpty()? "" : ":");
+        this.prefix = prefix + (prefix.isEmpty() || prefix.endsWith(":")? "" : ":");
         this.pointId = pointId;
         this.cache = cache;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        // FIXME implement the setters. Right now only getters are covered.
 
         if ("toString".equals(method.getName())) {
-            return table.toString();
+            return proxy.getClass()+" table: "+table.toString()+" pointId: "+pointId;
         }
 
         boolean isGetter = Utils.isGetter(method);
@@ -69,8 +73,22 @@ public class StarTableInvocationHandler implements InvocationHandler {
 
         // If it is a getter (and not transient and it does return a primitive) return the value, if any, or null.
         if (isGetter) {
-            String utype = Utils.getUtypeForMethod(method);
-            return getValueByUtype(prefix+utype);
+            String utype = Utils.getUtypeForMethod(prefix, method);
+            Object retVal = getValueByUtype(utype);
+
+            if (retVal == null) {
+                retVal = cache.getColumn(this, utype);
+            }
+
+            if (retVal == null) {
+                ColumnInfo info = Utils.makeColumInfo(method);
+                ValuedColumnInfo vinfo = new ValuedColumnInfo(info, table, pointId);
+                Quantity q = QuantityFactory.makeQuantity(vinfo);
+                cache.storeColumn(this, utype, q);
+                return q;
+            } else {
+                return retVal;
+            }
         }
 
         // If it is a setter (and not transient) and it does not get a primitive argument, throw an exception
@@ -89,7 +107,7 @@ public class StarTableInvocationHandler implements InvocationHandler {
     }
 
     private void setValue(Method method, Object value) throws Exception {
-        String utype = prefix+Utils.getUtypeForMethod(method);
+        String utype = Utils.getUtypeForMethod(prefix, method);
         // if this is a container, get or create a Parameter and sets its value
         if (pointId == null) {
             DescribedValue parameter = Utils.findParamByUtype(table, utype);
@@ -107,9 +125,10 @@ public class StarTableInvocationHandler implements InvocationHandler {
         }
 
         // if this is a child (point), get or create the Column corresponding to the utype and set the value for this point's row
-        Integer columnIndex = Utils.findColumnIndexByUtype(table, utype);
-        if (columnIndex != null) {
-            table.setCell(pointId, columnIndex, value);
+        ValuedColumnInfo columnInfo = Utils.findColumnIndexByUtype(table, utype, pointId);
+        if (columnInfo != null) {
+            columnInfo.setValue(value);
+//            table.setCell(pointId, columnInfo.getIndex(), value);
         } else {
             DefaultValueInfo vinfo = new DefaultValueInfo(Utils.getFieldName(method));
             //FIXME need more stuff, e.g. UCD, Unit
@@ -120,10 +139,15 @@ public class StarTableInvocationHandler implements InvocationHandler {
     }
 
     //TODO All the complexity of the deserialization rules should go in this method.
-    private Object getValueByUtype(String utype) throws XPathExpressionException, IOException {
+    private Quantity getValueByUtype(String utype) throws XPathExpressionException, IOException {
         DescribedValue param = Utils.findParamByUtype(table, utype);
         if (param != null) {
-            return param.getValue();
+            Quantity retVal = cache.getParam(table, utype);
+            if (retVal == null) {
+                retVal = QuantityFactory.makeQuantity(param);
+                cache.storeParam(table, utype, retVal);
+            }
+            return retVal;
         }
 
         // At this point of the implementation, a utype must have been identified for the method.
@@ -138,9 +162,15 @@ public class StarTableInvocationHandler implements InvocationHandler {
             return null;
         }
 
-        Integer columnIndex = Utils.findColumnIndexByUtype(table, utype);
-        if (columnIndex != null) {
-            return table.getCell(pointId, columnIndex);
+        ValuedColumnInfo columnInfo = Utils.findColumnIndexByUtype(table, utype, pointId);
+        if (columnInfo != null) {
+//            columnInfo.getInfo().setValue(table.getCell(pointId, columnInfo.getIndex()));
+            Quantity retVal = cache.getColumn(this, utype);
+            if (retVal == null) {
+                retVal = QuantityFactory.makeQuantity(columnInfo);
+                cache.storeColumn(this, utype, retVal);
+            }
+            return retVal;
         }
 
         return null;

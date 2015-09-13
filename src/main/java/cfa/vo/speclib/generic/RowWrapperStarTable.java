@@ -130,7 +130,8 @@ public class RowWrapperStarTable implements StarTable {
 
     public void setCellInNewColumn(long lrow, Object value, ValueInfo vInfo) throws IOException {
         ColumnInfo cInfo = new ColumnInfo(vInfo);
-        ArrayColumn column = ArrayColumn.makeColumn(cInfo, getBaseTable().getRowCount());
+        PrimitiveArrayColumn column = PrimitiveArrayColumn.makePrimitiveColumn(cInfo, getBaseTable().getRowCount());
+        column.setAllNulls();
         column.storeValue(lrow, value);
         ColumnStarTable newTable = ColumnStarTable.makeTableWithRows(getBaseTable().getRowCount());
         newTable.addColumn(column);

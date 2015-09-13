@@ -7,10 +7,8 @@ import cfa.vo.speclib.generic.Cache;
 import cfa.vo.speclib.generic.RowWrapperStarTable;
 import cfa.vo.speclib.generic.StarTableInvocationHandler;
 import cfa.vo.speclib.generic.Utils;
-import uk.ac.starlink.table.RowListStarTable;
-import uk.ac.starlink.table.StarTable;
-import uk.ac.starlink.votable.TableElement;
-import uk.ac.starlink.votable.VOStarTable;
+import uk.ac.starlink.table.*;
+import uk.ac.starlink.util.FileDataSource;
 
 import java.beans.IntrospectionException;
 import java.io.File;
@@ -22,23 +20,23 @@ import java.util.List;
  * Created by olaurino on 9/9/15.
  */
 public class SpectralFactory {
+    private static StarTableFactory factory = new StarTableFactory();
+
     public static List<Spectrum> getSpectra(File f, String prefix) {
         try {
-            //FIXME Works only for VOTable.
-            List<TableElement> nodes = Utils.getTableElements(f);
+            TableSequence ls = factory.makeStarTables(new FileDataSource(f));
 
             List<Spectrum> spectra = new ArrayList();
             Class[] ifaces = new Class[]{SpectrumPoint.class};
 
-            for (TableElement node: nodes) {
-                StarTable orig = new VOStarTable(node);
+            for (StarTable orig; (orig = ls.nextTable()) != null;) {
                 RowListStarTable editable = Utils.getRowListStarTable(orig);
                 RowWrapperStarTable table = new RowWrapperStarTable(editable);
                 Cache cache = new Cache();
                 Spectrum proxy = (Spectrum) Proxy.newProxyInstance(SpectralFactory.class.getClassLoader(), new Class[]{Spectrum.class}, new StarTableInvocationHandler(cache, table, prefix, null));
                 SpectrumImpl spectrum = new SpectrumImpl(proxy);
                 spectra.add(spectrum);
-                for (long i=0; i<node.getNrows(); i++) {
+                for (long i=0; i<table.getRowCount(); i++) {
                     SpectrumPoint point = (SpectrumPoint) Proxy.newProxyInstance(SpectralFactory.class.getClassLoader(), ifaces, new StarTableInvocationHandler(cache, table, prefix, i));
                     point.setSpectrum(spectrum);
                     spectrum.add(point);
@@ -68,9 +66,10 @@ public class SpectralFactory {
         return sed;
     }
 
-    public static SpectrumPoint appendPoint(SpectrumImpl spectrum) throws IntrospectionException {
+    // FIXME Should be Spectrum, not SpectrumImpl
+    public static SpectrumPoint appendPoint(Spectrum spectrum) throws IntrospectionException {
         try {
-            StarTableInvocationHandler handler = (StarTableInvocationHandler) Proxy.getInvocationHandler(spectrum.getProxy());
+            StarTableInvocationHandler handler = (StarTableInvocationHandler) Proxy.getInvocationHandler(((SpectrumImpl) spectrum).getProxy());
             Cache cache = handler.getCache();
             String prefix = handler.getPrefix();
             RowWrapperStarTable table = handler.getStarTable();
@@ -78,7 +77,7 @@ public class SpectralFactory {
             table.appendRow();
 
             SpectrumPoint point = (SpectrumPoint) Proxy.newProxyInstance(SpectralFactory.class.getClassLoader(), new Class[]{SpectrumPoint.class}, new StarTableInvocationHandler(cache, table, prefix, index));
-            spectrum.add(point);
+            ((SpectrumImpl) spectrum).add(point);
             return point;
         } catch (Exception e) {
             e.printStackTrace();

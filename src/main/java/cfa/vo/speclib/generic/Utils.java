@@ -1,6 +1,8 @@
 package cfa.vo.speclib.generic;
 
 import cfa.vo.speclib.domain.SpectrumImpl;
+import cfa.vo.speclib.generic.quantity.Quantity;
+import cfa.vo.speclib.generic.quantity.ValuedColumnInfo;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.ac.starlink.table.*;
@@ -72,17 +74,20 @@ public class Utils {
     }
 
     public static boolean isTransient(Method method) throws Exception {
+        return getGetter(method).isAnnotationPresent(Transient.class);
+    }
+
+    public static Method getGetter(Method method) throws Exception {
         String name = getFieldName(method);
         Class<?> clazz = method.getDeclaringClass();
         BeanInfo info = Introspector.getBeanInfo(clazz);
         PropertyDescriptor[] props = info.getPropertyDescriptors();
         for (PropertyDescriptor pd : props) {
             if (name.equals(pd.getName())) {
-                Method getter = pd.getReadMethod();
-                return getter.isAnnotationPresent(Transient.class);
+                return pd.getReadMethod();
             }
         }
-        throw new Exception("Beans should have a getter if they have an annonated setter");
+        throw new Exception("no getter");
     }
 
     public static DescribedValue findParamByUtype(StarTable table, String utype) {
@@ -99,26 +104,32 @@ public class Utils {
     }
 
     public static boolean isPrimitive(Class clazz) {
-        return clazz.isPrimitive()
-                || String.class == clazz
-                || Number.class.isAssignableFrom(clazz)
-                || (clazz.isArray() && isPrimitive(clazz.getComponentType()))
-                ;
+        return Quantity.class.isAssignableFrom(clazz);
+//        return clazz.isPrimitive()
+//                || String.class == clazz
+//                || Number.class.isAssignableFrom(clazz)
+//                || (clazz.isArray() && isPrimitive(clazz.getComponentType()))
+//                ;
     }
 
-    public static String getUtypeForMethod(Method method) throws Exception {
-        Method getter = new PropertyDescriptor(getFieldName(method), method.getDeclaringClass()).getReadMethod();
-        return getUtypeForGetter(getter);
+    public static String getUtypeForMethod(String prefix, Method method) throws Exception {
+        Method getter = getGetter(method);
+        return getUtypeForGetter(prefix, getter);
     }
 
-    public static String getUtypeForGetter(Method getter) throws Exception {
+    public static String getUtypeForGetter(String prefix, Method getter) throws Exception {
         try {
-            return getter.getAnnotation(UTYPE.class).value();
+            return prefix+getter.getAnnotation(VOModel.class).utype();
         }
         catch(NullPointerException ex) {
             // FIXME should do something smarter;
             throw ex;
         }
+    }
+
+    public static VOModel getModelDefinitionForMethod(Method method) throws Exception {
+        Method getter = getGetter(method);
+        return getter.getAnnotation(VOModel.class);
     }
 
     public static List<TableElement> getTableElements(File f) throws IOException, SAXException {
@@ -147,11 +158,11 @@ public class Utils {
                 Collections.<TableElement>emptyList() : new NodeListWrapper(n);
     }
 
-    public static Integer findColumnIndexByUtype(StarTable table, String utype) {
+    public static ValuedColumnInfo findColumnIndexByUtype(RowWrapperStarTable table, String utype, Long row) {
         for (int i=0; i<table.getColumnCount(); i++) {
             ColumnInfo colInfo = table.getColumnInfo(i);
             if (utype.equals(colInfo.getUtype())) {
-                return i;
+                return new ValuedColumnInfo(colInfo, table, row);
             }
         }
         return null;
@@ -173,6 +184,17 @@ public class Utils {
         return editable;
     }
 
+    public static ColumnInfo makeColumInfo(Method method) throws Exception {
+        VOModel model = Utils.getModelDefinitionForMethod(method);
+        ColumnInfo info = new ColumnInfo(model.utype());
+        info.setContentClass(model.contentType());
+        info.setUtype(model.utype());
+        info.setUCD(model.UCD());
+        info.setUnitString(model.unit());
+        info.setShape(model.shape());
+        return info;
+    }
+
     private static final class NodeListWrapper extends AbstractList<TableElement> {
         private final NodeList list;
 
@@ -188,4 +210,31 @@ public class Utils {
             return list.getLength();
         }
     }
+
+//    public static class IndexedValuedColumnInfo {
+//        private ValuedColumnInfo info;
+//        private Integer index;
+//
+//        public IndexedValuedColumnInfo(ValuedColumnInfo info, Integer index) {
+//            this.info = info;
+//            this.index = index;
+//        }
+//
+//        public ValuedColumnInfo getInfo() {
+//            return info;
+//        }
+//
+//        public void setInfo(ValuedColumnInfo info) {
+//            this.info = info;
+//        }
+//
+//        public Integer getIndex() {
+//            return index;
+//        }
+//
+//        public void setIndex(Integer index) {
+//            this.index = index;
+//        }
+//    }
+
 }

@@ -1,12 +1,12 @@
 package cfa.vo;
 
 import cfa.vo.speclib.domain.SpectralFactory;
-import cfa.vo.speclib.domain.SpectrumImpl;
 import cfa.vo.speclib.domain.model.Curation;
 import cfa.vo.speclib.domain.model.Sed;
 import cfa.vo.speclib.domain.model.Spectrum;
 import cfa.vo.speclib.domain.model.SpectrumPoint;
 import uk.ac.starlink.table.StarTable;
+import uk.ac.starlink.votable.VOTableWriter;
 
 import java.io.File;
 import java.net.URL;
@@ -24,20 +24,20 @@ public class TestSTIL {
         Spectrum spectrum = sed.getSpectra().get(0);
         SpectrumPoint point = spectrum.getPoints().get(0);
         Curation pointCuration = point.getSpectrum().getCuration();
-        String pointCurationPublisher = pointCuration.getPublisher();
+        String pointCurationPublisher = pointCuration.getPublisher().getValue();
 
         assert "ASDC".equals(pointCurationPublisher);
-        assert "ASDC".equals(spectrum.getCuration().getPublisher());
+        assert "ASDC".equals(spectrum.getCuration().getPublisher().getValue());
 
-        assert 5.037134225007662E-11 == point.getData().getSpectralAxis().getValue();
+        assert 5.037134225007662E-11 == point.getData().getSpectralAxis().getMeasurement().getValue();
 
-        assert 0.0f == point.getSpectrum().getCoordSys().getSpectralFrame().getRedshift();
+        assert 0.0f == point.getSpectrum().getCoordSys().getSpectralFrame().getRedshift().getValue();
 
         StarTable table = SpectralFactory.getStarTable(spectrum);
         assert table != null;
 
-        assert 187.25 == spectrum.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[0];
-        assert 2.17 == spectrum.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[1];
+        assert 187.25 == spectrum.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getMiddlePoint().getValue()[0];
+        assert 2.17 == spectrum.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getMiddlePoint().getValue()[1];
 
         url = TestSTIL.class.getResource("/data/simple.xml");
         f = new File(url.toURI());
@@ -47,31 +47,39 @@ public class TestSTIL {
 
         point = spectrum.getPoints().get(0);
 
-        assert null == point.getSpectrum().getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue();
+        assert null == point.getSpectrum().getCharacterisation().getSpatialAxis().getCoverage().getLocation().getMiddlePoint().getValue();
 
-        assert 1.1 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[0];
-        assert 1.2 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[1];
+        assert 1.1 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getMiddlePoint().getValue()[0];
+        assert 1.2 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getMiddlePoint().getValue()[1];
 
         point = spectrum.getPoints().get(1);
-        assert 2.1 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[0];
-        assert 2.2 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getValue()[1];
+        assert 2.1 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getMiddlePoint().getValue()[0];
+        assert 2.2 == point.getCharacterisation().getSpatialAxis().getCoverage().getLocation().getMiddlePoint().getValue()[1];
 
-        spectrum.getCuration().setPublisher("Foo");
-        assert "Foo" == spectrum.getCuration().getPublisher();
+        spectrum.getCuration().getPublisher().setValue("Foo");
+        assert "Foo" == spectrum.getCuration().getPublisher().getValue();
 
-        point.getData().getSpectralAxis().setValue(11111);
-        assert 11111 == point.getData().getSpectralAxis().getValue();
+        point.getData().getSpectralAxis().getMeasurement().setValue(11111d);
+        assert 11111d == point.getData().getSpectralAxis().getMeasurement().getValue();
 
-        assert null == point.getFoo();
-        point.setFoo(1.0);
-        assert 1.0 == point.getFoo();
+        assert null == point.getFoo().getValue();
+        point.getFoo().setValue(1.0);
+        assert 1.0 == point.getFoo().getValue();
 
-        point = SpectralFactory.appendPoint((SpectrumImpl) spectrum);
-        assert null == point.getFoo();
-        point.setFoo(1.0);
-        assert 1.0 == point.getFoo();
+        assert 2 == spectrum.getPoints().size();
+        assert 2 == SpectralFactory.getStarTable(spectrum).getRowCount();
+
+        point = SpectralFactory.appendPoint(spectrum);
+        assert null == point.getFoo().getValue();
+        point.getFoo().setValue(1.0);
+        assert 1.0 == point.getFoo().getValue();
 
         assert 3 == spectrum.getPoints().size();
         assert 3 == SpectralFactory.getStarTable(spectrum).getRowCount();
+
+        assert point.getCuration().getPublisher() == point.getCuration().getPublisher();
+        assert point.getFoo() == point.getFoo();
+
+        new VOTableWriter().writeStarTable(SpectralFactory.getStarTable(spectrum), System.out);
     }
 }
