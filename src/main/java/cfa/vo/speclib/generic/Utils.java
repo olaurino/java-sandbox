@@ -3,26 +3,15 @@ package cfa.vo.speclib.generic;
 import cfa.vo.speclib.domain.SpectrumImpl;
 import cfa.vo.speclib.generic.quantity.Quantity;
 import cfa.vo.speclib.generic.quantity.ValuedColumnInfo;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import uk.ac.starlink.table.*;
-import uk.ac.starlink.votable.TableElement;
-import uk.ac.starlink.votable.VODocument;
-import uk.ac.starlink.votable.VOElementFactory;
 
-import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.AbstractList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -132,15 +121,6 @@ public class Utils {
         return getter.getAnnotation(VOModel.class);
     }
 
-    public static List<TableElement> getTableElements(File f) throws IOException, SAXException {
-        Source s = new StreamSource(f);
-        VOElementFactory vof = new VOElementFactory(StoragePolicy.ADAPTIVE);
-        DOMSource docSource = vof.transformToDOM(s, false);
-        VODocument doc = (VODocument)docSource.getNode();
-        NodeList ns = doc.getElementsByTagName("TABLE");
-        return asList(ns);
-    }
-
     public static StarTable getStarTableforProxy(Object proxy) throws Exception {
         try {
             if (proxy instanceof SpectrumImpl) {
@@ -151,11 +131,6 @@ public class Utils {
         } catch (Throwable ex) {
             throw new Exception("could not get StarTable from proxy");
         }
-    }
-
-    private static List<TableElement> asList(NodeList n) {
-        return n.getLength() == 0 ?
-                Collections.<TableElement>emptyList() : new NodeListWrapper(n);
     }
 
     public static ValuedColumnInfo getColumnInfo(RowWrapperStarTable table, String utype, Long row) {
@@ -194,47 +169,5 @@ public class Utils {
         info.setShape(model.shape());
         return info;
     }
-
-    private static final class NodeListWrapper extends AbstractList<TableElement> {
-        private final NodeList list;
-
-        NodeListWrapper(NodeList l) {
-            list = l;
-        }
-
-        public TableElement get(int index) {
-            return (TableElement) list.item(index);
-        }
-
-        public int size() {
-            return list.getLength();
-        }
-    }
-
-//    public static class IndexedValuedColumnInfo {
-//        private ValuedColumnInfo info;
-//        private Integer index;
-//
-//        public IndexedValuedColumnInfo(ValuedColumnInfo info, Integer index) {
-//            this.info = info;
-//            this.index = index;
-//        }
-//
-//        public ValuedColumnInfo getInfo() {
-//            return info;
-//        }
-//
-//        public void setInfo(ValuedColumnInfo info) {
-//            this.info = info;
-//        }
-//
-//        public Integer getIndex() {
-//            return index;
-//        }
-//
-//        public void setIndex(Integer index) {
-//            this.index = index;
-//        }
-//    }
 
 }
