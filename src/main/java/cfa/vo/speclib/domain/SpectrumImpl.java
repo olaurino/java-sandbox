@@ -1,6 +1,7 @@
 package cfa.vo.speclib.domain;
 
 import cfa.vo.speclib.domain.model.*;
+import cfa.vo.speclib.generic.quantity.Quantity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,5 +48,10 @@ public class SpectrumImpl implements Spectrum {
     @Override
     public Characterisation getCharacterisation() {
         return proxy.getCharacterisation();
+    }
+
+    @Override
+    public Quantity<String> getBar() {
+        return proxy.getBar();
     }
 }

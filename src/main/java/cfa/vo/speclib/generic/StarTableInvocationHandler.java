@@ -9,9 +9,6 @@ import uk.ac.starlink.table.DefaultValueInfo;
 import uk.ac.starlink.table.DescribedValue;
 
 import javax.naming.OperationNotSupportedException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -27,8 +24,6 @@ public class StarTableInvocationHandler implements InvocationHandler {
     private RowWrapperStarTable table;
     private String prefix;
     private Long pointId;
-    //TODO check if xpath is thread safe and make it static if possible
-    private XPath xPath = XPathFactory.newInstance().newXPath();
     private Cache cache;
     private Map<String, Object> transients = new HashMap<String, Object>();
 
@@ -77,15 +72,30 @@ public class StarTableInvocationHandler implements InvocationHandler {
             Object retVal = getValueByUtype(utype);
 
             if (retVal == null) {
-                retVal = cache.getColumn(this, utype);
+                if (pointId == null) {
+                    // if this is a container, try getting a param from the cache
+                    retVal = cache.getParam(table, utype);
+                } else {
+                    // if this is a point, try getting a column from the cache
+                    retVal = cache.getColumn(this, utype);
+                }
             }
 
+            // if it's still None, build a new param or column, depending on pointId
             if (retVal == null) {
                 ColumnInfo info = Utils.makeColumInfo(method);
-                ValuedColumnInfo vinfo = new ValuedColumnInfo(info, table, pointId);
-                Quantity q = QuantityFactory.makeQuantity(vinfo);
-                cache.storeColumn(this, utype, q);
-                return q;
+                if (pointId != null) {
+                    ValuedColumnInfo vinfo = new ValuedColumnInfo(info, table, pointId);
+                    Quantity q = QuantityFactory.makeQuantity(vinfo);
+                    cache.storeColumn(this, utype, q);
+                    return q;
+                } else {
+                    DescribedValue value = new DescribedValue(info);
+                    Quantity q = QuantityFactory.makeQuantity(value);
+                    table.getParameters().add(value);
+                    cache.storeParam(table, utype, q);
+                    return q;
+                }
             } else {
                 return retVal;
             }
@@ -139,7 +149,7 @@ public class StarTableInvocationHandler implements InvocationHandler {
     }
 
     //TODO All the complexity of the deserialization rules should go in this method.
-    private Quantity getValueByUtype(String utype) throws XPathExpressionException, IOException {
+    private Quantity getValueByUtype(String utype) throws IOException {
         DescribedValue param = Utils.findParamByUtype(table, utype);
         if (param != null) {
             Quantity retVal = cache.getParam(table, utype);

@@ -71,14 +71,18 @@ public class TestSTIL {
 
         point = SpectralFactory.appendPoint(spectrum);
         assert null == point.getFoo().getValue();
-        point.getFoo().setValue(1.0);
-        assert 1.0 == point.getFoo().getValue();
+        point.getFoo().setValue(2.0);
+        assert 2.0 == point.getFoo().getValue();
 
         assert 3 == spectrum.getPoints().size();
         assert 3 == SpectralFactory.getStarTable(spectrum).getRowCount();
 
         assert point.getCuration().getPublisher() == point.getCuration().getPublisher();
         assert point.getFoo() == point.getFoo();
+
+        assert null == spectrum.getBar().getValue();
+        spectrum.getBar().setValue("Baz");
+        assert "Baz" == spectrum.getBar().getValue();
 
         new VOTableWriter().writeStarTable(SpectralFactory.getStarTable(spectrum), System.out);
     }
