@@ -36,6 +36,7 @@ public class TestSTIL {
         assert "ASDC".equals(spectrum.getCuration().getPublisher().getValue());
 
         // Test numeric values, for a column
+        // Note that method may have any names, i.e. they do not depend on the UTYPE string.
         assert 2.4200000273883E22 == point.getData().getSpectralAxis().getMeasurement().getValue();
 
         // and for a PARAM

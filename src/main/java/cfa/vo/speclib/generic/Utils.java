@@ -158,7 +158,7 @@ public class Utils {
                 Collections.<TableElement>emptyList() : new NodeListWrapper(n);
     }
 
-    public static ValuedColumnInfo findColumnIndexByUtype(RowWrapperStarTable table, String utype, Long row) {
+    public static ValuedColumnInfo getColumnInfo(RowWrapperStarTable table, String utype, Long row) {
         for (int i=0; i<table.getColumnCount(); i++) {
             ColumnInfo colInfo = table.getColumnInfo(i);
             if (utype.equals(colInfo.getUtype())) {

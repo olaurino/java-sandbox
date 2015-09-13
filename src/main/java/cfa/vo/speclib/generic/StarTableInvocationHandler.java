@@ -135,7 +135,7 @@ public class StarTableInvocationHandler implements InvocationHandler {
         }
 
         // if this is a child (point), get or create the Column corresponding to the utype and set the value for this point's row
-        ValuedColumnInfo columnInfo = Utils.findColumnIndexByUtype(table, utype, pointId);
+        ValuedColumnInfo columnInfo = Utils.getColumnInfo(table, utype, pointId);
         if (columnInfo != null) {
             columnInfo.setValue(value);
 //            table.setCell(pointId, columnInfo.getIndex(), value);
@@ -172,7 +172,7 @@ public class StarTableInvocationHandler implements InvocationHandler {
             return null;
         }
 
-        ValuedColumnInfo columnInfo = Utils.findColumnIndexByUtype(table, utype, pointId);
+        ValuedColumnInfo columnInfo = Utils.getColumnInfo(table, utype, pointId);
         if (columnInfo != null) {
 //            columnInfo.getInfo().setValue(table.getCell(pointId, columnInfo.getIndex()));
             Quantity retVal = cache.getColumn(this, utype);
