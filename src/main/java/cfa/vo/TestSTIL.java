@@ -135,5 +135,23 @@ public class TestSTIL {
         // The Curation.Publisher PARAM should have value Foo
         // There should be a PARAM with utype "Bar" and value "Baz"
         new VOTableWriter().writeStarTable(SpectralFactory.getStarTable(spectrum), System.out);
+
+        // Create a Standalone Point from scratch
+        point = SpectralFactory.makePoint();
+
+        // populate it
+
+        //FIXME Should point.getSpectrum raise a different exception than NullPointerException? Should a null object be instantiated instead when point.spectrum is null? Should it return the point's backend itself?
+//        assert null == point.getSpectrum().getCuration().getPublisher().getValue();
+//        point.getSpectrum().getCuration().getPublisher().setValue("Omar");
+
+        assert null == point.getCuration().getPublisher().getValue();
+        point.getCuration().getPublisher().setValue("Omar");
+        point.getData().getSpectralAxis().getMeasurement().setValue(1.1);
+
+//        assert "Omar".equals(point.getSpectrum().getCuration().getPublisher());
+        assert "Omar".equals(point.getCuration().getPublisher().getValue());
+        assert 1.1 == point.getData().getSpectralAxis().getMeasurement().getValue();
+        new VOTableWriter().writeStarTable(SpectralFactory.getStarTable(point), System.out);
     }
 }

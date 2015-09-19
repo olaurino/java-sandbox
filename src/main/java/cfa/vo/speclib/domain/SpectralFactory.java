@@ -7,7 +7,10 @@ import cfa.vo.speclib.generic.Cache;
 import cfa.vo.speclib.generic.RowWrapperStarTable;
 import cfa.vo.speclib.generic.StarTableInvocationHandler;
 import cfa.vo.speclib.generic.Utils;
-import uk.ac.starlink.table.*;
+import uk.ac.starlink.table.EmptyStarTable;
+import uk.ac.starlink.table.StarTable;
+import uk.ac.starlink.table.StarTableFactory;
+import uk.ac.starlink.table.TableSequence;
 import uk.ac.starlink.util.FileDataSource;
 
 import java.beans.IntrospectionException;
@@ -30,8 +33,8 @@ public class SpectralFactory {
             Class[] ifaces = new Class[]{SpectrumPoint.class};
 
             for (StarTable orig; (orig = ls.nextTable()) != null;) {
-                RowListStarTable editable = Utils.getRowListStarTable(orig);
-                RowWrapperStarTable table = new RowWrapperStarTable(editable);
+                RowWrapperStarTable table = Utils.getRowWrapperStarTable(orig);
+
                 Cache cache = new Cache();
                 Spectrum proxy = (Spectrum) Proxy.newProxyInstance(SpectralFactory.class.getClassLoader(), new Class[]{Spectrum.class}, new StarTableInvocationHandler(cache, table, prefix, null));
                 SpectrumImpl spectrum = new SpectrumImpl(proxy);
@@ -48,9 +51,9 @@ public class SpectralFactory {
         }
     }
 
-    public static StarTable getStarTable(Spectrum spectrum) throws IntrospectionException {
+    public static StarTable getStarTable(Object instance) throws IntrospectionException {
         try {
-            return Utils.getStarTableforProxy(spectrum);
+            return Utils.getStarTableforProxy(instance);
 //            throw new Exception();
         } catch (Exception e) {
             // FIXME replace with domain specific implementation of the StarTable interface for instances not backed up
@@ -84,5 +87,16 @@ public class SpectralFactory {
             // FIXME what to do here?
             return null;
         }
+    }
+
+    public static SpectrumPoint makePoint() {
+        StarTable newTable = new EmptyStarTable();
+        try {
+            RowWrapperStarTable table = Utils.getRowWrapperStarTable(newTable);
+            return (SpectrumPoint) Proxy.newProxyInstance(SpectralFactory.class.getClassLoader(), new Class[]{SpectrumPoint.class}, new StarTableInvocationHandler(new Cache(), table, "spec", null));
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

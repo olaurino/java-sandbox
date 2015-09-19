@@ -159,6 +159,10 @@ public class Utils {
         return editable;
     }
 
+    public static RowWrapperStarTable getRowWrapperStarTable(StarTable orig) throws IOException {
+        return new RowWrapperStarTable(getRowListStarTable(orig));
+    }
+
     public static ColumnInfo makeColumInfo(Method method) throws Exception {
         VOModel model = Utils.getModelDefinitionForMethod(method);
         ColumnInfo info = new ColumnInfo(model.utype());
