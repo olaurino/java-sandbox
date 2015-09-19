@@ -12,7 +12,6 @@ import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.List;
 
 /**
  * Created by olaurino on 9/9/15.
@@ -80,12 +79,7 @@ public class Utils {
     }
 
     public static DescribedValue findParamByUtype(StarTable table, String utype) {
-        for (DescribedValue param: (List<DescribedValue>) table.getParameters()) {
-            if (utype.equals(param.getInfo().getUtype())) {
-                return param;
-            }
-        }
-        return null;
+        return AliasManager.getInstance().findParamByUtype(table, utype);
     }
 
     public static boolean returnsPrimitive(Method method) {

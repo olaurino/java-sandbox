@@ -5,6 +5,7 @@ import cfa.vo.speclib.domain.model.Curation;
 import cfa.vo.speclib.domain.model.Sed;
 import cfa.vo.speclib.domain.model.Spectrum;
 import cfa.vo.speclib.domain.model.SpectrumPoint;
+import cfa.vo.speclib.generic.AliasManager;
 import uk.ac.starlink.table.StarTable;
 import uk.ac.starlink.votable.VOTableWriter;
 
@@ -152,6 +153,23 @@ public class TestSTIL {
 //        assert "Omar".equals(point.getSpectrum().getCuration().getPublisher());
         assert "Omar".equals(point.getCuration().getPublisher().getValue());
         assert 1.1 == point.getData().getSpectralAxis().getMeasurement().getValue();
+
+        // FIXME check visually that the two values introduced above actually appear in the table.
         new VOTableWriter().writeStarTable(SpectralFactory.getStarTable(point), System.out);
+
+        // FITS support
+        url = TestSTIL.class.getResource("/data/BasicSpectrum.fits");
+        f = new File(url.toURI());
+        spectrum = SpectralFactory.getSpectra(f, "spec").get(0);
+
+        // Let's introduce the alias here... but a better place should probably be found. This should not be defined by the client, if not for adding a new unexpected alias.
+        AliasManager.getInstance().addAlias("Spectrum.Curation.Publisher", "VOPUB");
+
+        assert "Database".equals(spectrum.getCuration().getPublisher().getValue());
+
+        point = spectrum.getPoints().get(0);
+
+        assert 8.32826233E14 == point.getData().getSpectralAxis().getMeasurement().getValue();
+        assert "Database".equals(point.getSpectrum().getCuration().getPublisher().getValue());
     }
 }
