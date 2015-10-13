@@ -57,34 +57,34 @@
               <target>1.6</target>
           </configuration>
       </plugin>
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>cobertura-maven-plugin</artifactId>
-      <version>2.6</version>
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.6</version>
       
-      <!-- Optional cobertura coverage check - will fail the build if the coverage is below the threshold -->
-      <configuration>
-          <formats>
+          <!-- Optional cobertura coverage check - will fail the build if the coverage is below the threshold -->
+          <configuration>
+          	<formats>
               <format>xml</format>
-          </formats>
-        <check>
-          <!-- Per-class thresholds -->
-<!--           <lineRate>70</lineRate> -->
-<!--           <branchRate>70</branchRate> -->
-          <!-- Project-wide thresholds -->
-          <totalLineRate>35</totalLineRate>
-          <totalBranchRate>15</totalBranchRate>
-        </check>
-      </configuration>
-      <executions>
-        <execution>
-          <phase>verify</phase>
-          <goals>
-            <goal>check</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
+          	</formats>
+        	<check>
+          		<!-- Per-class thresholds -->
+				<!--           <lineRate>70</lineRate> -->
+				<!--           <branchRate>70</branchRate> -->
+          		<!-- Project-wide thresholds -->
+          		<totalLineRate>35</totalLineRate>
+          		<totalBranchRate>15</totalBranchRate>
+        	</check>
+      	  </configuration>
+          <executions>
+            <execution>
+              <phase>verify</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+      </plugin>
       <plugin>
           <groupId>org.eluder.coveralls</groupId>
           <artifactId>coveralls-maven-plugin</artifactId>
@@ -94,6 +94,23 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.4</version>
+<!-- 
+          <dependencies>
+          <dependency>
+            <groupId>lt.velykis.maven.skins</groupId>
+            <artifactId>reflow-velocity-tools</artifactId>
+            <version>1.1.1</version>
+          </dependency>
+          <!~~ Reflow skin requires Velocity >= 1.7  ~~>
+          <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+          </dependency>
+          </dependencies>
+ -->
+
+
       </plugin>
       <plugin>
           <groupId>com.github.github</groupId>

@@ -6,25 +6,115 @@
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-fluido-skin</artifactId>
         <version>1.4</version>
+
+<!-- 
+
+		<groupId>lt.velykis.maven.skins</groupId>
+		<artifactId>reflow-maven-skin</artifactId>
+		<version>1.1.1</version>
+ -->
+
     </skin>
+
+	<bannerLeft>
+		<name>Chandra CXC</name>
+		<src>imgs/Iris_logo_padding.png</src>
+		<href>/</href>
+	</bannerLeft>
 
     <body>
         <links>
             <item name="Chandra CXC" href="http://cxc.cfa.harvard.edu"/>
         </links>
+	
+		<menu name="Iris" >
+		  <item name="Homepage" href="./index.html"/>
+		</menu>
+		  <menu name="Introduction">
+			<item name="About" href="./intro/index.html"/>
+			<item name="Features" href="./intro/features.html"/>
+			<item name="Future" href="./intro/future.html"/>
+		  </menu>
+		  <menu name="Download Iris">
+			<item name="Download &amp; Installation" href="./download/index.html"/>
+			<item name="Smoke Test" href="./download/smoke_tests.html"/>
+			<item name="Troubleshooting" href="./bugs/smoke.html"/>
+		  </menu>
+		  <menu name="Documentation">
+			<item name="How-To Guide" href="./guide.html" collapse="true">
+			  <item name="Loading SED Data into Iris" href="./threads/entry/index.html"/>
+			  <item name="Building and Managing SEDs" href="./threads/importer/index.html"/>
+			  <item name="Visualizing SED Data" href="./threads/plot/index.html"/>
+			  <item name="Modeling and Fiting SED Data" href="./threads/fit/index.html"/>
+			  <item name="Saving SED Data" href="./threads/save/index.html"/>
+			  <item name="Shifting, Interpolating, and Integrating SED Data" href="./threads/science/index.html"/>
+			  <item name="Statistically Combining SEDs" href="./threads/science/sedstacker/index.html"/>
+			</item>
+			<item name="Bugs &amp; Caveats" href="./bugs/index.html"/>
+			<item name="FAQs" href="./faq/"/>
+			<item name="Release Notes" href="./releasenotes/index.html"/>
+		  </menu>
+		  <menu name="References">
+			<item name="Iris Models" href="./references/models.html"/>
+			<item name="Supported File Formats" href="./references/importer_files.html"/>
+			<item name="Publications" href="./publications/index.html"/>
+		  </menu>
 
-        <!--<menu name="Regular Web Site">-->
-            <!--<item name="APT Format" href="format.html"/>-->
-            <!--<item name="Xdoc Example" href="xdoc.html"/>-->
-            <!--<item name="FAQ" href="faq.html"/>-->
-        <!--</menu>-->
-
-        <menu ref="reports"/>
+		<menu ref="reports"/>
+	
     </body>
-
+    
     <custom>
         <fluidoSkin>
             <googleSearch>
+                <sitesearch>olaurino.github.io/java-sandbox/</sitesearch>
+            </googleSearch>
+            <gitHub>
+                <projectId>olaurino/sandbox</projectId>
+                <ribbonOrientation>left</ribbonOrientation>
+                <ribbonColor>orange</ribbonColor>
+                <profile>sandbox</profile>
+            </gitHub>
+            <sideBarEnabled>true</sideBarEnabled>
+        </fluidoSkin>
+
+
+<!-- 
+        <reflowSkin>
+		  <theme>bootswatch-spacelab</theme>
+		  <highlightJs>true</highlightJs>
+		  <brand>
+			<name>Chandra CXC</name>
+			<href>http://cxc.harvard.edu</href>
+		  </brand>
+		  <slogan>A Virtual Observatory spectral energy distribution analysis tool</slogan>
+		  <titleTemplate>%2$s | %1$s</titleTemplate>
+		  <toc>top</toc>
+		  <tocTopFlatten>false</tocTopFlatten>
+		  <topNav></topNav>
+		  <bottomNav>
+			<column>Home|Download</column>
+			<column>How-To Guide</column>
+			<column></column>
+		  </bottomNav>
+		  <bottomDescription>
+		    footer.html
+			Copyright 2015 Smithsonian Astrophysical Observatory
+		  </bottomDescription>
+		  <pages>
+			<index>
+			  <toc>top</toc>
+			</index>
+<!~~ 
+			<developer-info>
+			  <toc>sidebar</toc>
+			</developer-info>
+ ~~>
+		  </pages>
+ -->
+		  
+<!-- 
+		  <googleSearch>
                 <sitesearch>olaurino.github.io/java-sandbox/</sitesearch>
             </googleSearch>
             <gitHub>
@@ -33,7 +123,11 @@
                 <ribbonColor>orange</ribbonColor>
                 <profile>sandbox</profile>
             </gitHub>
-        </fluidoSkin>
+ -->
+
+<!--         </reflowSkin> -->
+
+
     </custom>
 
 </project>
