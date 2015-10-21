@@ -13,27 +13,27 @@ The Iris How-to Guide serves as a roadmap for navigating the Iris SED analysis t
 
 ## Download and Installation
 
-  * [Download and install Iris](./download/)
-  * [Troubleshooting](./bugs/smoke.html)
+  * [Download and install Iris][download]
+  * [Troubleshooting][download_trouble]
 
 ## Introduction to Iris
 
-  * [Loading SED Data into Iris](./threads/entry/)
-  * [Building and Managing SEDs](./threads/importer/)
-  * [Visualizing SED Data](./threads/plot/)
-  * [Shifting, Interpolating and Integrating SED Data](./threads/science/)
-  * [Modeling and Fitting SED Data](./threads/fit/)
-  * [Saving SED Data](./threads/save/)
-  * [Stastically Combining SEDs](./threads/science/sedstacker)
+  * [Loading SED Data into Iris][entry]
+  * [Building and Managing SEDs][importer]
+  * [Visualizing SED Data][plot]
+  * [Shifting, Interpolating and Integrating SED Data][science]
+  * [Modeling and Fitting SED Data][fit]
+  * [Saving SED Data][save]
+  * [Stastically Combining SEDs][sedstacker]
 
 ## Iris Usage Examples
 
-  * [Analyzing SED Data in Iris](./threads/analysis/) - Run through a full science thread by importing, editing, and fitting a blazar SED.
+  * [Analyzing SED Data in Iris][analysis] - Run through a full science thread by importing, editing, and fitting a blazar SED.
 
 ## Iris Plugins
 
-  * [The Plugin Manager](./threads/plugin/)
-  * [Developing Iris Plugins](./threads/sdk)
+  * [The Plugin Manager][plugin_manager]
+  * [Developing Iris Plugins][sdk]
 
 ## Videos
 
@@ -43,3 +43,35 @@ The Iris How-to Guide serves as a roadmap for navigating the Iris SED analysis t
     Please note that the videos were made for Iris v2.0 and do not show all the new features introduced in Iris 2.1 beta. The videos will be updated for the Iris v2.1 release.
   * [Overview of Iris features](https://www.youtube.com/watch?v=pF5ivLshPyw)
   * [Statistically Combine SEDs with Iris]()
+
+
+
+<!-- threads -->
+[sedstacker]: 		./threads/science/sedstacker/index.html "SED Stacker"
+[science]: 			./threads/science/index.html "Shift, Interpolate, and Integrate"
+[entry]: 			./threads/entry/index.html "Loading SED Data into Iris"
+[fit]: 				./threads/fits/index.html "Modeling and Fiting SED Data"
+[importer]: 		./threads/importer/index.html "Building and Managing SEDs"
+[plot]: 			./threads/plot/index.html "Visualizing SED Data"
+[analysis]: 		./threads/analysis/index.html "Analyzing SED Data in Iris"
+[save]: 			./threads/save/index.html "Saving SED Data"
+[sdk]: 				./threads/sdk/index.html "Developing Plugins: the Iris Software Development Kit"
+[plugin_manager]: 	./threads/plugin_manager/index.html "Plugin Manager"
+
+<!-- reference files -->
+[download]: 		./download/index.html "Download and Installation"
+[smoke_test]: 		./download/smoke_tests.html "Smoke Test"
+[macosx105]:		./download/macosx_test.html "Mac OS X 10.5 Download Instructions"
+[download_trouble]: ./bugs/smoke.html
+[supported_files]: 	./references/importer_files.html
+[models]: 			./references/models.html
+[faq]: 				./faq/index.html "FAQs"
+[releasenotes]: 	./releasenotes/index.html "Release Notes"
+[publications]: 	./publications/index.html "Iris Publications"
+[bugs]: 			./bugs/index.html "Bugs and Caveats"
+
+<!-- CXC links -->
+[helpdesk]:			/helpdesk/ "CXC HelpDesk"
+[sao]:				http://cfa.harvard.edu/sao "Smithsonian Astrophysical Observatory"
+[cxc]:				/ "Chandra X-Ray Observatory"
+[sherpa]:			/sherpa/ "Sherpa"
