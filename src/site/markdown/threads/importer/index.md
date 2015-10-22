@@ -503,9 +503,9 @@ itself (note that formatting errors may result, in this case).
 
 ## <a name="cli"></a> Advanced: SED Builder Command-line Interface (CLI)
 
-  - [Creating a Setup File](index.html#create_setup)\
-  - [Using a Setup File](index.html#use_setup)\
-  - [Editing a Setup File](index.html#edit_setup)\
+  - [Creating a Setup File](index.html#create_setup)
+  - [Using a Setup File](index.html#use_setup)
+  - [Editing a Setup File](index.html#edit_setup)
   - [Example of Using a Setup File](index.html#example_setup)
 
 The SED Builder may be run non-interactively from the Unix command line,

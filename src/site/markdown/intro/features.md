@@ -98,7 +98,7 @@ Users can integrate SEDs defining passbands manually of from a searchable list o
 
 Users can [statistically combine SEDs][sedstacker] into a single, representative SED. The group of SEDs, called a "Stack," is made up of SEDs already loaded in the SED Builder. The tool provides optional bulk redshifting and normalization of the SEDs before combination. Users combine the SEDs together using average, weighted average, or a summation of the SEDs, with linear or logarithmic binning.
 
-![Iris Screenshot](imgs/intro/coplot-of-stacked-and-normed_small.jpg "A stacked SED co-plotted with its uncombined counterparts")
+![Iris Screenshot](./imgs/coplot-of-stacked-and-normed_small.jpg "A stacked SED co-plotted with its uncombined counterparts")
 
 More information on the science features can be found in the "[Shift, Interpolate and Integrate][science]" thread in the Iris How-To Guide.
 
@@ -116,7 +116,7 @@ More information on the science features can be found in the "[Shift, Interpolat
 [sedstacker]: 		../threads/science/sedstacker/index.html "SED Stacker"
 [science]: 			../threads/science/index.html "Shift, Interpolate, and Integrate"
 [entry]: 			../threads/entry/index.html "Loading SED Data into Iris"
-[fit]: 				../threads/fits/index.html "Modeling and Fiting SED Data"
+[fit]: 				../threads/fit/index.html "Modeling and Fiting SED Data"
 [importer]: 		../threads/importer/index.html "Building and Managing SEDs"
 [plot]: 			../threads/plot/index.html "Visualizing SED Data"
 [analysis]: 		../threads/analysis/index.html "Analyzing SED Data in Iris"

@@ -388,7 +388,7 @@ The "Extract" function in the Metadata window allows you to go one step
 further than simply masking unwanted data points; it allows you to
 extract a whole new SED consisting of only the selected data points.
 
-[![Iris screenshot]](./imgs/metadata_new_selected.png)](./imgs/metadata_new_selected.png)
+[![Iris screenshot](./imgs/metadata_new_selected.png)](./imgs/metadata_new_selected.png)
 
 Making the desired row selections in the Metadata window and then
 clicking "Extract" will open a new SED in the SED Builder window named
