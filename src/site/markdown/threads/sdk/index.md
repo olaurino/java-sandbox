@@ -137,6 +137,10 @@ If you need more information, or you have an idea for a plugin but you
 don't think you have enough Java experience, please feel free to contact
 us at the [CXC HelpDesk][helpdesk].
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ## <a name="generate_project"></a> Generating an Iris Plugin Project
@@ -218,6 +222,10 @@ The Iris plugin template itself is a simple plugin that when activated
 opens a window with the quintessential message, "Hello World!". We will
 use this project to explain some of the necessary hooks needed to
 connect a plugin to Iris.
+
+|   |
+|--:|
+|[[Back to top][top]]|
 
 ------------------------------------------------------------------------
 
@@ -310,6 +318,10 @@ project configuration with the POM file. To learn more, check out
 Maven's documentation on [POM
 files](http://maven.apache.org/pom.html#Introduction).*
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ## <a name="iris-sdk"></a> The Iris Software Development Kit
@@ -322,6 +334,10 @@ Keep in mind that a portion of the documentation is incomplete. If you
 have any questions, please contact us at the
 [CXC Help Desk][helpdesk] -- we'll be glad to
 help you!
+
+|   |
+|--:|
+|[[Back to top][top]]|
 
 ------------------------------------------------------------------------
 
@@ -445,6 +461,10 @@ public class TestPlugin implements IrisPlugin {
 The MyComponent class does not exist yet, and we will now create it in a
 separate MyComponent.java
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ### <a name="component"></a> Adding a Component
@@ -500,6 +520,10 @@ developers can access the IrisApplication context and, more importantly,
 a reference to the Iris Workspace. These instances are available through
 the this.app and this.workspace protected field. The following sections
 contain more information about the Iris Workspace.
+
+|   |
+|--:|
+|[[Back to top][top]]|
 
 ------------------------------------------------------------------------
 
@@ -565,6 +589,10 @@ a modal dialog window with the ubiquitous "Hello World!" message.
 In more useful plugins, the onClick() method would contain code that
 most likely instantiates and displays a GUI.
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ### <a name="add-frames"></a> Adding Frames to the Iris Desktop
@@ -605,6 +633,10 @@ The [SedManager](./iris-sdk/cfa/vo/iris/sed/SedManager.html), in fact,
 can be used to create and retrieve Sed instances from the user's
 workspace.
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ### <a name="register-events"></a> Registering for Events
@@ -643,6 +675,10 @@ The listener will get called every time an event is fired for an SED.
 Some events might inspect the payload to process only some subtypes of
 events, e.g. only when a SED is selected, created, or removed.
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ### <a name="sedlist-widget"></a> The SedList widget
@@ -654,7 +690,11 @@ extends the JList class, and allows Components to seamlessly include a
 SED browser in their GUI. The list is implemented so that the relevant
 events are automatically fired. For example, the user will be able to
 select SEDs in this widget, which automatically fires a SedEvent with
-SedCommand.SELECTED.
+`SedCommand.SELECTED.`
+
+|   |
+|--:|
+|[[Back to top][top]]|
 
 ------------------------------------------------------------------------
 
@@ -682,17 +722,29 @@ In order to get an attachment you can use the
 [getAttachment](./iris-sdk/cfa/vo/iris/sed/ExtSed.html#getAttachment.html)
 method, using the right key for getting its instance.
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ### <a name="samp-handlers"></a> Providing SAMP Handlers
 
 \*\*\* **Documentation coming soon!** \*\*\*
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ### <a name="cli"></a> Providing a Command Line Interface
 
 \*\*\* **Documentation coming soon!** \*\*\*
+
+|   |
+|--:|
+|[[Back to top][top]]|
 
 ------------------------------------------------------------------------
 
@@ -703,6 +755,10 @@ a JAR file using Maven first, and then install the JAR using Iris's
 Plugin Manager. Please follow the directions in [Building the
 project](#build) and [Installing Plugins to Iris][plugin_manager].
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ## <a name="build"></a> Building the project
@@ -710,9 +766,9 @@ project](#build) and [Installing Plugins to Iris][plugin_manager].
 So now let's say you're ready to build your project. Maven provides a
 useful set of build lifecycle commands that make validating, testing,
 deploying and all the steps inbetween straightforward. The following is
-a list of the most common build commands, taken directly from the Maven
-online Build Lifecycle introduction at
-<http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html>
+a list of the most common build commands, taken directly from the 
+[Maven
+online Build Lifecycle introduction](http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html).
 
 -   **validate -** validate the project is correct and all necessary
     information is available
@@ -807,6 +863,10 @@ plugin](#install) into Iris.
 `my-plugin-project-1.0-SNAPSHOT.jar` and
 `my-plugin-project-1.0-SNAPSHOT-jar-with-dependencies.jar`.*
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ## <a name="install"></a> Installing the Plugin
@@ -858,6 +918,10 @@ Spectral Energy Distributions](../../publications/files/aciris.pdf)."
 Sections 5 and 7 are most useful for software developers wanting to
 extend Iris.
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
 ------------------------------------------------------------------------
 
 ## <a name="history"></a> History
@@ -869,6 +933,52 @@ extend Iris.
 |  14 Apr 2014  | Added the [Quick Start](./index.html#quickstart) section. |
 |  23 Jun 2015  | Updated for Iris 2.1. New artifactory location added. |
 
+|   |
+|--:|
+|[[Back to top][top]]|
+
+
+<!-- external links -->
+[topcat]: http://www.star.bris.ac.uk/~mbt/topcat/#docs "TOPCAT"
+[svo]:   http://svo2.cab.inta-csic.es/theory/fps/index.php?mode=voservice 
+
+<!-- threads -->
+[sedstacker]: 		../../threads/science/sedstacker/index.html "SED Stacker"
+[science]: 			../../threads/science/index.html "Shift, Interpolate, and Integrate"
+[entry]: 			../../threads/entry/index.html "Loading SED Data into Iris"
+[fit]: 				../../threads/fit/index.html "Modeling and Fiting SED Data"
+[importer]: 		../../threads/importer/index.html "Building and Managing SEDs"
+[plot]: 			../../threads/plot/index.html "Visualizing SED Data"
+[analysis]: 		../../threads/analysis/index.html "Analyzing SED Data in Iris"
+[save]: 			../../threads/save/index.html "Saving SED Data"
+[sdk]: 				../../threads/sdk/index.html "Developing Plugins: the Iris Software Development Kit"
+[plugin_manager]: 	../../threads/plugin_manager/index.html "Plugin Manager"
+
+<!-- extras (Iris models) -->
+[brokenpowerlaw]:   ../../references/models.html#brokenpowerlaw "brokenpowerlaw"
+[blackbody]:		../../references/models.html#blackbody "blackbody"
+
+<!-- reference files -->
+[download]: 		../../download/index.html "Download and Installation"
+[smoke_test]: 		../../download/smoke_tests.html "Smoke Test"
+[macosx105]:		../../download/macosx_test.html "Mac OS X 10.5 Download Instructions"
+[download_trouble]: ../../bugs/smoke.html
+[supported_files]: 	../../references/importer_files.html
+[models]: 			../../references/models.html
+[faq]: 				../../faq/index.html "FAQs"
+[releasenotes]: 	../../releasenotes/index.html "Release Notes"
+[publications]: 	../../publications/index.html "Iris Publications"
+[bugs]: 			../../bugs/index.html "Bugs and Caveats"
+
+<!-- CXC links -->
+[helpdesk]:			/helpdesk/ "CXC HelpDesk"
+[sao]:				http://cfa.harvard.edu/sao "Smithsonian Astrophysical Observatory"
+[cxc]:				/ "Chandra X-Ray Observatory"
+[sherpa]:			/sherpa/ "Sherpa"
+
+<!-- Navigation -->
+[toc]:				#toc
+[top]:      		#top
 
 
 

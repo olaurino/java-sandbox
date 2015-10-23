@@ -421,8 +421,8 @@ into this section must match the Python function name in the file,
 
 Clicking "Install Model Component" installs the model as a custom model
 in Iris. The next time the Fitting Tool is opened, the model can be
-selected from the menu of custom model components, under Add -&gt;
-Custom Model Components -&gt; tables -&gt; my\_py\_powlaw.
+selected from the menu of custom model components, under *Add -&gt;
+Custom Model Components -&gt; tables -&gt; my\_py\_powlaw*.
 
 |   |
 |--:|
@@ -473,8 +473,8 @@ statistic and optimization method appropriate for your analysis.
 Selecting "Fit" in the main fitting window (where model components are
 listed) launches a new model fitting window (labeled "Fitted")
 containing the statistic and method options. These are listed below with
-brief descriptions (refer to the [Statistics](/sherpa4.3/statistics/)
-and [Optimization](/sherpa4.3/methods/) pages of the Sherpa website for
+brief descriptions (refer to the [Statistics](/sherpa/statistics/)
+and [Optimization](/sherpa/methods/) pages of the Sherpa website for
 a detailed explanation of each of the Sherpa fit statistics and methods
 available in Iris).
 
@@ -793,7 +793,7 @@ Fitting Tool.
 [sedstacker]: 		../../threads/science/sedstacker/index.html "SED Stacker"
 [science]: 			../../threads/science/index.html "Shift, Interpolate, and Integrate"
 [entry]: 			../../threads/entry/index.html "Loading SED Data into Iris"
-[fit]: 				../../threads/fits/index.html "Modeling and Fiting SED Data"
+[fit]: 				../../threads/fit/index.html "Modeling and Fiting SED Data"
 [importer]: 		../../threads/importer/index.html "Building and Managing SEDs"
 [plot]: 			../../threads/plot/index.html "Visualizing SED Data"
 [analysis]: 		../../threads/analysis/index.html "Analyzing SED Data in Iris"

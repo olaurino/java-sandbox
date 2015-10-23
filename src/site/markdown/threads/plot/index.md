@@ -366,7 +366,7 @@ In this SED, column `n:` contains the DataFluxPublishedValue metadata
 property, a floating-point value, and column `c:` contains the
 DataSignificance metadata property, a string. (See more examples of
 using the Boolean filter in [Co-plotting Separate
-SEDs](#coplot_example))
+SEDs](#coplot))
 
 [![Iris screenshot](./imgs/boolean_filter_example_small.jpg)](./imgs/boolean_filter_example.png)
 
@@ -505,7 +505,7 @@ The color space is defined
 
 The SED data currently displayed in Iris may be printed to a hardcopy
 image in either JPG (.jpg), PNG (.png), GIF (.gif) or BITMAP (.bmp)
-format, by selecting File-&gt;Save plot to image file, and making the
+format, by selecting *File-&gt;Save plot to image file*, and making the
 desired image format selection. The image will scale to the size and
 shape of the plot in the Iris Visualizer.
 
@@ -621,7 +621,7 @@ screenshot](./imgs/topcat_examplesmall.jpg)](./imgs/topcat_example.png)
 [sedstacker]: 		../../threads/science/sedstacker/index.html "SED Stacker"
 [science]: 			../../threads/science/index.html "Shift, Interpolate, and Integrate"
 [entry]: 			../../threads/entry/index.html "Loading SED Data into Iris"
-[fit]: 				../../threads/fits/index.html "Modeling and Fiting SED Data"
+[fit]: 				../../threads/fit/index.html "Modeling and Fiting SED Data"
 [importer]: 		../../threads/importer/index.html "Building and Managing SEDs"
 [plot]: 			../../threads/plot/index.html "Visualizing SED Data"
 [analysis]: 		../../threads/analysis/index.html "Analyzing SED Data in Iris"

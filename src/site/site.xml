@@ -61,6 +61,13 @@
 			<item name="Supported File Formats" href="./references/importer_files.html"/>
 			<item name="Publications" href="./publications/index.html"/>
 		  </menu>
+		  <menu name="Help Desk">
+			<item name="CXC HelpDesk" href="http://cxc.cfa.harvard.edu/helpdesk"/>
+		  </menu>
+		  <menu name="Release Versions">
+		  	<item name="Latest Release" href="./latest/index.html"/>
+		  	<item name="Previous Releases" href="./archive.html"/>
+		  </menu>
 
 		<menu ref="reports"/>
 	

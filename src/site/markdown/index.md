@@ -10,7 +10,8 @@
 the astronomer to build, edit, visualize and model SEDs across a broad
 spectral range.
 
-<div style="background:#d8e3ff;margin-left:20px;margin-right:20px">
+<!-- <div style="background:#d8e3ff;margin-left:20px;margin-right:20px"> -->
+<div style="margin-left:20px;margin-right:20px">
 
   <div style="margin-left:25px;margin-right:20px">
 
@@ -20,8 +21,8 @@ spectral range.
     like integrating under fitted model components, a tool for statistically
     combining groups of SEDs, and the ability to arbitrarily combine
     template libraries and table models with other libraries, models, and
-    functions (see the <a href="./releasenotes">Release Notes</a> for details).
-    <strong><a href="./download">Download Iris v2.1</a></strong>.
+    functions (see the <a href="./releasenotes/index.html">Release Notes</a> for details).
+    <strong><a href="./download/index.html">Download Iris v2.1</a></strong>.
 
 </div>
 
@@ -29,7 +30,7 @@ spectral range.
 
 <div align="center">
 
-<img src="imgs/new_homepage_pic.png" 
+<img src="./imgs/new_homepage_pic.png" 
      href="./intro/index.html" 
      alt="Iris desktop application"/>
 

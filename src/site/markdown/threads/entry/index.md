@@ -24,6 +24,8 @@ simultaneously plot multiple SED segments together in the main display.
 This thread demonstrates the various ways to read SED data into Iris to
 begin your data analysis session.
 
+**Last Update:** 07 May 2015 - Updated for Iris 2.1 beta.
+
 ------------------------------------------------------------------------
 
 ### Contents
@@ -72,13 +74,13 @@ photometric point(s)), an additional column listing the spectral
 coordinate values, either wavelength, frequency, or energy.
 
 *For a description of each supported file format listed here, see
-[Supported Input File Formats][importer_files].*
+[Supported Input File Formats][supported_files].*
 
 **Note**: *While the time coordinate associated with a photometric or
 spectroscopic measurement is a fundamental piece of information, the
 explicit dependence on time is ignored in the context of SED analysis in
 Iris. (The time *t* of the observation is always contained in the
-[metadata][../plot/index.html#metadata) accompanying every measurement
+[metadata](../plot/index.html#metadata) accompanying every measurement
 supported by Iris.)*
 
 |   |
@@ -1074,7 +1076,7 @@ table.tableizer-table {
 [sedstacker]: 		../../threads/science/sedstacker/index.html "SED Stacker"
 [science]: 			../../threads/science/index.html "Shift, Interpolate, and Integrate"
 [entry]: 			../../threads/entry/index.html "Loading SED Data into Iris"
-[fit]: 				../../threads/fits/index.html "Modeling and Fiting SED Data"
+[fit]: 				../../threads/fit/index.html "Modeling and Fiting SED Data"
 [importer]: 		../../threads/importer/index.html "Building and Managing SEDs"
 [plot]: 			../../threads/plot/index.html "Visualizing SED Data"
 [analysis]: 		../../threads/analysis/index.html "Analyzing SED Data in Iris"

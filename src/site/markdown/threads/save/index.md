@@ -324,7 +324,7 @@ SED data from the Metadata Browser in Iris to TOPCAT.
 [sedstacker]: 		../../threads/science/sedstacker/index.html "SED Stacker"
 [science]: 			../../threads/science/index.html "Shift, Interpolate, and Integrate"
 [entry]: 			../../threads/entry/index.html "Loading SED Data into Iris"
-[fit]: 				../../threads/fits/index.html "Modeling and Fiting SED Data"
+[fit]: 				../../threads/fit/index.html "Modeling and Fiting SED Data"
 [importer]: 		../../threads/importer/index.html "Building and Managing SEDs"
 [plot]: 			../../threads/plot/index.html "Visualizing SED Data"
 [analysis]: 		../../threads/analysis/index.html "Analyzing SED Data in Iris"
@@ -334,7 +334,7 @@ SED data from the Metadata Browser in Iris to TOPCAT.
 
 <!-- extras (Iris models) -->
 [science_integrate]:	../science/index.html#integrated
-[plot_broadcast]:		../../threads/plot/idnex.html#broadcast
+[plot_broadcast]:		../../threads/plot/index.html#broadcast
 
 <!-- reference files -->
 [download]: 		../../download/index.html "Download and Installation"
@@ -347,6 +347,7 @@ SED data from the Metadata Browser in Iris to TOPCAT.
 [releasenotes]: 	../../releasenotes/index.html "Release Notes"
 [publications]: 	../../publications/index.html "Iris Publications"
 [bugs]: 			../../bugs/index.html "Bugs and Caveats"
+[guide]:			../../guide.html
 
 <!-- CXC links -->
 [helpdesk]:			/helpdesk/ "CXC HelpDesk"

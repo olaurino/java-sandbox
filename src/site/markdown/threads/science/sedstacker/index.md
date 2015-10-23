@@ -100,6 +100,7 @@ etc.).
 
 ![snapshot of SED Stacker
 Component](./imgs/sedstacker-frame_blank_small.png)
+
 **Figure 1.** The SED Stacker component.
 
 |   |
@@ -125,8 +126,9 @@ The user does not need to assign redshifts to all the SEDs in a Stack.
 When a Stack is redshifted, SEDs without a redshift are simply passed
 along with no changes.
 
-![\[snapshot of SED Stacker
-Component\]](./imgs/add-seds-frame2_small.jpg)
+![snapshot of SED Stacker
+Component](./imgs/add-seds-frame2_small.jpg)
+
 **Figure 2.** Adding SEDs and their redshifts to a Stack using the
 "Adding SEDs" window.
 
@@ -137,6 +139,7 @@ SED.
 
 ![snapshot of SED Stacker
 Component](./imgs/added-seds-table_whole-frame.jpg)
+
 **Figure 3.** The SED Stacker frame after populating a Stack with SEDs.
 
 The user may choose to import the Segments of a SED as individual SEDs
@@ -165,6 +168,7 @@ by right-clicking on the Stack name in the Open Stacks, selecting
 "Rename..." and inputting the new, unique ID.
 
 ![renaming a Stack](./imgs/rename-popup_small.jpg)   ![\[renaming a Stack\]](./imgs/rename-input_small.jpg)
+
 **Figure 5.** Changing the name of a Stack.
 
 The user can remove SEDs from a Stack by clicking on the SED rows in the
@@ -180,6 +184,7 @@ SED each time they redshift or normalize.
 
 ![adding a SED-represntation of the Stack to the SED
 Builder](./imgs/create-sed_featureless_small.jpg)
+
 **Figure 6.** A SED-represntation of the Stack is added to the SED
 Builder and Viewer for more analysis using the "Create SED" button in
 the SED Stacker window.
@@ -205,6 +210,7 @@ normalize the SEDs using the methods provided in SED Stacker.
 
 ![screenshot of SED Stacker
 component](./imgs/redshift-and-normalize-options_redshift.png)
+
 **Figure 7.** Redshift options.
 
 The user can shift multiple SEDs simultaneously to the same redshift.
@@ -221,6 +227,7 @@ By default, this option is checked.
 
 ![screenshot of SED Stacker
 component](./imgs/stack-redshifted_small.jpg)
+
 **Figure 8.** Shifting the Featureless AGN to z=0.0. We correct the flux
 and automatically create a SED-representation of the shifted Stack. The
 redshifted AGN are shown in the SED Builder and Viewer.
@@ -261,6 +268,7 @@ These two methods are called **Integration** and **At Point**.
 
 ![screenshot of SED Stacker
 component](./imgs/redshift-and-normalize-options_normalize.png)
+
 **Figure 9.** Normalization options.
 
 The **Integration** method requires the spectral range to integrate over
@@ -277,6 +285,7 @@ trapezoidal rule.
 
 ![screenshot of SED Stacker
 component](./imgs/sedstacker-frame_normalized_small.jpg)
+
 **Figure 10.** Featureless AGN normalized to the median integral of all
 the SEDs plotted in mJy vs microns. The normalization constants are the
 values multiplied to the SEDs in the flux unit used for normalization,
@@ -292,8 +301,9 @@ box next to "At point:". The SEDs are interpolated via a
 nearest-neighbor method to calculate the normalization constant at point
 (X, Y).
 
-![\[screenshot of SED Stacker component\]](./imgs/sedstacker-frame_shifted-and-normed_small_cut.jpg)
-![\[screenshot of SED Stacker component\]](./imgs/stack_normalized-to-point_small.jpg)
+![screenshot of SED Stacker component](./imgs/sedstacker-frame_shifted-and-normed_small_cut.jpg)
+![screenshot of SED Stacker component](./imgs/stack_normalized-to-point_small.jpg)
+
 **Figure 11.** Featureless AGN normalized to the point (100 microns, 10
 mJy). The normalization constants are the values multiplied to the SEDs
 in the flux unit used for normalization, which in this case is mJy.
@@ -340,6 +350,7 @@ On the right side of the SEDStacker GUI are the stacking options.
 
 ![screenshot of SED Stacker
 component](./imgs/stacking-options_default_small.jpg)
+
 **Figure 12.** Stacking options.
 
 This is how SED Stacker statistically combines, or "stacks," SEDs. A set
@@ -374,7 +385,7 @@ units as the Bin Size Units). The smoothing is done after the SEDs are
 stacked. To smooth the stacked SED, we use
 
 `numpy.convolve(spectral_values, window_array,         window='same')`,
-where\
+where
 
 `window_array = numpy.ones(int(smooth_boxsize) / float(smooth_boxsize))`.
 
@@ -386,6 +397,7 @@ without affecting the SEDs.
 
 ![screenshot of SED Stacker
 component](./imgs/featureless-agn-stacked_small.jpg)
+
 **Figure 13.** The averaged SED of the rest-frame, normalized (by
 integration) featureless AGN using logarithmic binning with bin sizes of
 0.1 decades, combined in mJy vs microns.
@@ -547,7 +559,7 @@ the individual SEDs out using the Metadata Broswer.
 
 ------------------------------------------------------------------------
 
-### <a name="stack-troubleshoot"></a> Stacking
+### <a name="stacking-troubleshoot"></a> Stacking
 
 -   *Too many bins (number of bins: (XXXXXX))*
 
@@ -621,7 +633,7 @@ the individual SEDs out using the Metadata Broswer.
 [sedstacker]: 		../../threads/science/sedstacker/index.html "SED Stacker"
 [science]: 			../../threads/science/index.html "Shift, Interpolate, and Integrate"
 [entry]: 			../../threads/entry/index.html "Loading SED Data into Iris"
-[fit]: 				../../threads/fits/index.html "Modeling and Fiting SED Data"
+[fit]: 				../../threads/fit/index.html "Modeling and Fiting SED Data"
 [importer]: 		../../threads/importer/index.html "Building and Managing SEDs"
 [plot]: 			../../threads/plot/index.html "Visualizing SED Data"
 [analysis]: 		../../threads/analysis/index.html "Analyzing SED Data in Iris"

@@ -21,7 +21,7 @@
 [sedstacker]: 		./threads/science/sedstacker/index.html "SED Stacker"
 [science]: 			./threads/science/index.html "Shift, Interpolate, and Integrate"
 [entry]: 			./threads/entry/index.html "Loading SED Data into Iris"
-[fit]: 				./threads/fits/index.html "Modeling and Fiting SED Data"
+[fit]: 				./threads/fit/index.html "Modeling and Fiting SED Data"
 [importer]: 		./threads/importer/index.html "Building and Managing SEDs"
 [plot]: 			./threads/plot/index.html "Visualizing SED Data"
 [analysis]: 		./threads/analysis/index.html "Analyzing SED Data in Iris"

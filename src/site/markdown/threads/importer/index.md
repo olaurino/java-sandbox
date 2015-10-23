@@ -123,8 +123,8 @@ Formats][importer_files] page.
 ## <a name="start"></a> Getting Started
 
 The main mode of interaction with the SED Builder is through the Iris
-Graphical User Interface (GUI), but a non-interactive, command-line
-interface (CLI) is also available for advanced users wishing to convert
+Graphical User Interface (GUI), but a non-interactive, [command-line
+interface](index.html#cli) (CLI) is also available for advanced users wishing to convert
 their unsupported data formats in this mode. (In order to use the SED
 Builder CLI, what is referred to in this document as a 'setup' file is
 required input, along with the file to be converted. The setup file
@@ -149,7 +149,7 @@ $ iris &
 open](./imgs/load_file_windows_v2_small.jpg)](./imgs/load_file_windows_v2.png)
 
 Then, according to the instructions in the "Loading Data into Iris"
-section of the [How-to Guide][guide.html], load your first (or
+section of the [How-to Guide][guide], load your first (or
 only) spectrum or catalog of photometric points into Iris. Data may be
 loaded from a file on your local disk; an `http` or `ftp` URL address
 (internet connection required); from the NED SED service (internet
@@ -217,7 +217,7 @@ particular data segment (i.e., so that the tool knows how to convert the
 data from the unsupported format to a supported one). The "Save Setup"
 button beneath the "Setup Help" window is available for those who wish
 to write this configuration to file for use with the SED Builder CLI,
-described in the "Advanced Usage" section below.
+described in the "[Advanced Usage](index.html#cli)" section below.
 
 [![snapshot of SED Builder
 GUI](./imgs/import_setup_complete_small.png)](./imgs/import_setup_complete.png)
@@ -298,8 +298,8 @@ A photometric point can be added to an SED via the "New Point" button in
 the "Segments" section in the SED Builder window. You must specify the X
 and Y axes units first, and then can choose your photometric input:
 Single Value, Passband, or Photometry Filter. Choosing the Photometry
-Filter brings up a browser (which can also be found in Tools -&gt; SED
-Builder -&gt; Photometry Filter Browser) from which you can select over
+Filter brings up a browser (which can also be found in *Tools -&gt; SED
+Builder -&gt; Photometry Filter Browser*) from which you can select over
 2100 filters from various telescopes. The orange dialog in the bottom
 right corner displays the necessary information needed to import the
 photometric point into Iris.
@@ -515,7 +515,7 @@ created using the SED Builder interactively, first, according to the
 procedure described in the section "Entering the Conversion
 Configuration", above.
 
-### <a name="creating_setup"></a>Creating a Setup File for the CLI
+### <a name="create_setup"></a>Creating a Setup File for the CLI
 
 A SED Builder setup file is a text file which records the configuration
 information used by the tool to convert from the user-input unsupported
@@ -549,7 +549,7 @@ are:
 
 ------------------------------------------------------------------------
 
-### <a name="using_setup"></a>Using a Setup File
+### <a name="use_setup"></a>Using a Setup File
 
 To run the SED Builder from the command line using a newly created setup
 file as input, the following arguments must be provided, in the order
@@ -579,7 +579,7 @@ one setup file you already created to convert a batch of files on the
 command line.
 
 An example Python script that performs a batch conversion is available
-[here](python_example_script.txt), with accompanying instructions for
+[here](./python_example_script.txt), with accompanying instructions for
 customizing and executing. Such a script may be used to automatically
 convert all the files in a given directory using the SED Builder Command
 Line Interface.
@@ -785,8 +785,8 @@ format from the command line, non-interactively; i.e., so that you do
 not have to re-create the same conversion setup within the GUI for each
 file.
 
-We want to analyze these two data sets -- `z1sf_kirkpatrick.dat` and
-`arp220_IR.txt` -- in Iris, but they're in ASCII table format, so we
+We want to analyze these two data sets -- [`z1sf_kirkpatrick.dat`](./z1sf_kirkpatrick.dat) and
+[`arp220_IR.txt`](./arp220_IR.txt) -- in Iris, but they're in ASCII table format, so we
 must convert them. Let's load in `arp220_IR.txt` into Iris by clicking
 the "Load SED" icon, browsing our local disk for the file, selecting
 "ASCII Table" from the menu of file format options, and then clicking
@@ -815,15 +815,15 @@ Before selecting the "Add Segment to SED" option - in order to be
 brought back to the SED Builder window where we may manage (and save to
 file) our converted data - we first save this conversion configuration
 to a so-called 'setup' file by selecting the "Save Setup" option; we
-name the file `ascii_setup.ini`.
+name the file `setup.ini`.
 
 [![Setup file 
 example](./imgs/example_save_setup_file_arp220_IR.dat_small.jpg)](./imgs/example_save_setup_file_arp220_IR.dat.png)
 
-Here are the contents of `ascii_setup.ini`:
+Here are the contents of `setup.ini`:
 
 ``` {.highlight}
-$ more ascii_setup.ini 
+$ more setup.ini 
 [Segment0]
 XAxisColumnNumber = 0
 XAxisQuantity = WAVELENGTH
@@ -884,7 +884,7 @@ setup file for converting `z1sf_kirkpatrick.dat` to a VOTable format
 file, is shown below.
 
 ``` {.highlight}
-$ more ascii_setup.ini 
+$ more setup.ini 
 [Segment0]
 XAxisColumnNumber = 0
 XAxisQuantity = WAVELENGTH
@@ -909,7 +909,7 @@ specify the setup file to use to make the conversion, the name of the
 output converted file, and the format to use for the output file:
 
 ``` {.highlight}
-$ iris builder ascii_setup.ini z1sf_kirkpatrick.vot vot
+$ iris builder setup.ini z1sf_kirkpatrick.vot vot
 
 Building segments...
 
@@ -1152,7 +1152,7 @@ IFilter counterpart (see previous section) and return their same type.
 [sedstacker]: 		../../threads/science/sedstacker/index.html "SED Stacker"
 [science]: 			../../threads/science/index.html "Shift, Interpolate, and Integrate"
 [entry]: 			../../threads/entry/index.html "Loading SED Data into Iris"
-[fit]: 				../../threads/fits/index.html "Modeling and Fiting SED Data"
+[fit]: 				../../threads/fit/index.html "Modeling and Fiting SED Data"
 [importer]: 		../../threads/importer/index.html "Building and Managing SEDs"
 [plot]: 			../../threads/plot/index.html "Visualizing SED Data"
 [analysis]: 		../../threads/analysis/index.html "Analyzing SED Data in Iris"
@@ -1188,4 +1188,4 @@ IFilter counterpart (see previous section) and return their same type.
 [top]:      		#top
   
 
-[faq_sed]: ../../../faq/sed.html "SED Data Type FAQs"
+[faq_sed]: ../../faq/sed.html "SED Data Type FAQs"
