@@ -1,0 +1,119 @@
+
+
+ The Python script below represents an advanced example of
+ how to use the SED Importer CLI to create complex tasks.
+
+ In this simple example, we create a set of sample input data files in
+ ASCII format, to be converted by the SED Importer to a supported
+ format for use in Iris; the script creates a separate SED Importer
+ setup file for each.
+
+
+
+ 1) Create a directory for the input files. With your favorite text
+    editor, create three text files: a_file.dat, b_file.dat, c_file.dat
+
+ In each file create some data entries like the following:
+
+ 1.4e17      0.1e-12	0.01e-12
+ 1.5e17      0.2e-12	0.01e-12
+ 3.6e18      0.3e-13	0.01e-12
+ 3.7e18      0.4e-12	0.01e-12
+ 4.5e17      0.5e-12	0.01e-12
+
+ Be sure that in the input files directory there are no other files,
+ otherwise you will get errors from the Python script.
+
+
+
+ 2) Using a text editor, create the following Python script (be sure
+    to create it outside the input file directory). Name it 
+    import_sed_dir.py, for example.
+
+    The code below is quite simple (most of it is just for strings
+    manipulation) so you are encouraged to read it; the comments in
+    the code should explain the most significant snippets. Remember to
+    change the IMPORTER variable so that it points to the folder in
+    which you have unzipped the Iris distribution.
+
+
+
+
+-------- CODE BEGINS HERE ---------
+
+#!/usr/bin/env python
+
+import os
+import sys  # We need to import some packages from the Python distribution
+
+input_dir = sys.argv[1]   # The first command line argument is the directory with the input files
+output_dir = sys.argv[2] # The second command line argument is the output directory
+
+if not os.path.exists(output_dir): # If the output directory doesn't exist, create it
+	print "Creating directory "+output_dir
+	print
+	os.mkdir(output_dir)
+
+IMPORTER = '/home/user/downloads/iris-1.0-macosx-i386/SedImporter' # Edit this line to point to the SedImporter script in the Iris distribution
+
+# The following dictionary contains all the Setup parameters that are common to all the files
+common_params = {
+	'XAxisColumnNumber' : '0',
+	'XAxisQuantity' : 'FREQUENCY',
+	'XAxisUnit' : 'HERTZ',
+	'YAxisColumnNumber' : '1',
+	'YAxisQuantity' : 'SPVFLUXDENSITY',
+	'YAxisUnit' : 'FLUXDENSITYFREQ0',
+	'errorType' : 'SymmetricColumn',
+	'publisher' : 'OMAR',
+	'symmetricErrorColumnNumber' : '2',
+	'formatName' : 'ASCIITABLE',
+}
+
+# In the output directory create a setup file for each file in the input directory
+for filename in os.listdir(input_dir):
+	f = open(os.path.join(output_dir,filename+'.ini'), 'w')
+	abspath = os.path.abspath(os.path.join(input_dir,filename))
+	f.write('[Segment]\n') 				# This header is required in the Setup file to specify where the section begins
+	for key, value in common_params.items():
+		f.write(key+' = '+value+'\n')
+	f.write('fileLocation = file://'+abspath+'\n') 	# Write the location of the current input file
+	f.close() 
+
+# execute SedImporter on each setup file
+for file in [os.path.join(output_dir, f) for f in os.listdir(output_dir)]:
+	if file.endswith('.ini'):
+		output_file_name = os.path.split(file.replace('.ini', '.vot'))[1]
+		output_file = os.path.join(output_dir, output_file_name)
+		print
+		print '***** Processing '+output_file+' *****'
+		cmd = IMPORTER+' '+file+' '+output_file
+		os.system(cmd) 				# Execute the SedImporter command line
+		os.remove(file)				# Remove the temporary Setup file
+
+
+-------- CODE ENDS HERE ---------
+
+
+ 3) To be sure the script can be executed, issue the following command  
+    in a terminal window:
+
+> chmod u+x  import_sed_dir.py
+
+
+   The script takes exactly two arguments: the directory where the input
+   files reside, and the directory into which it will write output
+   files. If the output directory does not exist, it will create it.
+
+
+
+ 4) If you created the "files" directory as described above, you can
+    launch the Python script as follows:
+
+> ./import_sed_dir.py files outdir
+
+  The output from the SED Importer will scroll on the terminal, so
+  that you can spot errors if they occur. When the script is done, in
+  the outdir directory you should find a list of files in VOTable
+  format which you can load into Iris.
+

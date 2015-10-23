@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VOTABLE version="1.1"
+  xmlns="http://www.ivoa.net/xml/VOTable/v1.1"
+  xmlns:spec="http://www.ivoa.net/xml/Spectrum/Spectrum-1.01.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.ivoa.net/xml/VOTable/v1.1"
+  >
+  <RESOURCE utype="spec:Spectrum.Sed">
+    <TABLE utype="spec:Segment">
+      <PARAM arraysize="*" datatype="char" name="DataModel" utype="spec:Spectrum.DataModel" value="Spectrum-1.0"/>
+      <GROUP utype="spec:Spectrum.Target">
+        <PARAM arraysize="*" datatype="char" name="Name" ucd="meta.id;src" utype="spec:Spectrum.Target.Name" value="arp220"/>
+        <PARAM arraysize="2" datatype="double" name="Pos" ucd="pos.eq;src" utype="spec:Spectrum.Target.Pos" value="233.73798 23.50319"/>
+      </GROUP>
+      <GROUP utype="spec:Spectrum.Char">
+        <GROUP utype="spec:Spectrum.Char.SpatialAxis">
+          <GROUP utype="spec:Spectrum.Char.SpatialAxis.Coverage">
+            <GROUP utype="spec:Spectrum.Char.SpatialAxis.Coverage.Location">
+              <PARAM arraysize="2" datatype="double" name="Value" ucd="pos.eq" utype="spec:Spectrum.Char.SpatialAxis.Coverage.Location.Value" value="233.73798 23.50319"/>
+            </GROUP>
+            <GROUP utype="spec:Spectrum.Char.SpatialAxis.Coverage.Bounds">
+              <PARAM datatype="double" name="Extent" ucd="instr.fov" utype="spec:Spectrum.Char.SpatialAxis.Coverage.Bounds.Extent" value="NaN"/>
+            </GROUP>
+          </GROUP>
+        </GROUP>
+        <GROUP utype="spec:Spectrum.Char.TimeAxis">
+          <GROUP utype="spec:Spectrum.Char.TimeAxis.Coverage">
+            <GROUP utype="spec:Spectrum.Char.TimeAxis.Coverage.Location">
+              <PARAM arraysize="2" datatype="double" name="Value" ucd="time.epoch" utype="spec:Spectrum.Char.TimeAxis.Coverage.Location.Value" value="NaN NaN"/>
+            </GROUP>
+            <GROUP utype="spec:Spectrum.Char.TimeAxis.Coverage.Bounds">
+              <PARAM datatype="double" name="Extent" ucd="time.duration" utype="spec:Spectrum.Char.TimeAxis.Coverage.Bounds.Extent" value="NaN"/>
+            </GROUP>
+          </GROUP>
+        </GROUP>
+        <GROUP utype="spec:Spectrum.Char.SpectralAxis">
+          <PARAM arraysize="*" datatype="char" name="wave" ucd="em.wl" unit="μm" utype="spec:Spectrum.Char.SpectralAxis.Name" value="wave"/>
+          <GROUP utype="spec:Spectrum.Char.SpectralAxis.Coverage">
+            <GROUP utype="spec:Spectrum.Char.SpectralAxis.Coverage.Location">
+              <PARAM arraysize="2" datatype="double" name="Value" ucd="instr.bandpass" utype="spec:Spectrum.Char.SpectralAxis.Coverage.Location.Value" value="NaN NaN"/>
+            </GROUP>
+            <GROUP utype="spec:Spectrum.Char.SpectralAxis.Coverage.Bounds">
+              <PARAM datatype="double" name="Extent" ucd="instr.bandwidth" utype="spec:Spectrum.Char.SpectralAxis.Coverage.Bounds.Extent" value="NaN"/>
+              <PARAM datatype="double" name="Min" ucd="em.wl;stat.min" utype="spec:Spectrum.Char.SpectralAxis.Coverage.Bounds.Min" value="NaN"/>
+              <PARAM datatype="double" name="Max" ucd="em.wl;stat.max" utype="spec:Spectrum.Char.SpectralAxis.Coverage.Bounds.Max" value="NaN"/>
+            </GROUP>
+          </GROUP>
+        </GROUP>
+        <GROUP utype="spec:Spectrum.Char.FluxAxis">
+          <PARAM arraysize="*" datatype="char" name="flux" ucd="phot.flux.density;em.freq" unit="mJy" utype="spec:Spectrum.Char.FluxAxis.Name" value="flux"/>
+          <GROUP utype="spec:Spectrum.Char.FluxAxis.Accuracy">
+            <PARAM datatype="double" name="StatError" ucd="stat.error;phot.flux.density;em.freq" unit="mJy" utype="spec:Spectrum.Char.FluxAxis.Accuracy.StatError"/>
+          </GROUP>
+        </GROUP>
+      </GROUP>
+      <GROUP utype="spec:Spectrum.Curation">
+        <PARAM arraysize="*" datatype="char" name="Publisher" ucd="meta.curation" utype="spec:Spectrum.Curation.Publisher" value="NED"/>
+      </GROUP>
+      <GROUP utype="spec:Spectrum.Data">
+        <GROUP utype="spec:Spectrum.Data.SpectralAxis">
+          <FIELDref ref="wave"/>
+        </GROUP>
+        <GROUP utype="spec:Spectrum.Data.FluxAxis">
+          <FIELDref ref="flux"/>
+          <GROUP utype="spec:Spectrum.Data.FluxAxis.Accuracy">
+            <FIELDref ref="wave"/>
+          </GROUP>
+        </GROUP>
+      </GROUP>
+      <FIELD ID="wave" datatype="double" name="wave" unit="μm" utype="spec:Spectrum.Data.SpectralAxis.Value"/>
+      <FIELD ID="flux" datatype="double" name="flux" unit="mJy" utype="spec:Spectrum.Data.FluxAxis.Value"/>
+      <FIELD ID="wave" datatype="double" name="wave" ucd="stat.error;phot.flux.density;em.freq" unit="mJy" utype="spec:Spectrum.Data.FluxAxis.Accuracy.StatError"/>
+      <DATA>
+        <TABLEDATA>
+          <TR>
+            <TD>1.2489999532699585</TD>
+            <TD>61.4</TD>
+            <TD>1.2489999532699585</TD>
+          </TR>
+          <TR>
+            <TD>1.6471999883651733</TD>
+            <TD>77.2</TD>
+            <TD>1.6471999883651733</TD>
+          </TR>
+          <TR>
+            <TD>2.172499895095825</TD>
+            <TD>76.4</TD>
+            <TD>2.172499895095825</TD>
+          </TR>
+          <TR>
+            <TD>3.357100009918213</TD>
+            <TD>43.6</TD>
+            <TD>3.357100009918213</TD>
+          </TR>
+          <TR>
+            <TD>3.543600082397461</TD>
+            <TD>45.3</TD>
+            <TD>3.543600082397461</TD>
+          </TR>
+          <TR>
+            <TD>4.4878997802734375</TD>
+            <TD>41.5</TD>
+            <TD>4.4878997802734375</TD>
+          </TR>
+          <TR>
+            <TD>4.605100154876709</TD>
+            <TD>38.9</TD>
+            <TD>4.605100154876709</TD>
+          </TR>
+          <TR>
+            <TD>5.710299968719482</TD>
+            <TD>113.0</TD>
+            <TD>5.710299968719482</TD>
+          </TR>
+          <TR>
+            <TD>5.995800018310547</TD>
+            <TD>69.3</TD>
+            <TD>5.995800018310547</TD>
+          </TR>
+          <TR>
+            <TD>7.8480000495910645</TD>
+            <TD>314.0</TD>
+            <TD>7.8480000495910645</TD>
+          </TR>
+          <TR>
+            <TD>7.994500160217285</TD>
+            <TD>500.0</TD>
+            <TD>7.994500160217285</TD>
+          </TR>
+          <TR>
+            <TD>11.803000450134277</TD>
+            <TD>497.0</TD>
+            <TD>11.803000450134277</TD>
+          </TR>
+          <TR>
+            <TD>14.98900032043457</TD>
+            <TD>1120.0</TD>
+            <TD>14.98900032043457</TD>
+          </TR>
+          <TR>
+            <TD>19.986000061035156</TD>
+            <TD>2145.0</TD>
+            <TD>19.986000061035156</TD>
+          </TR>
+          <TR>
+            <TD>22.207000732421875</TD>
+            <TD>3860.0</TD>
+            <TD>22.207000732421875</TD>
+          </TR>
+          <TR>
+            <TD>23.42099952697754</TD>
+            <TD>5570.0</TD>
+            <TD>23.42099952697754</TD>
+          </TR>
+          <TR>
+            <TD>24.982999801635742</TD>
+            <TD>9600.0</TD>
+            <TD>24.982999801635742</TD>
+          </TR>
+          <TR>
+            <TD>24.98200035095215</TD>
+            <TD>8000.0</TD>
+            <TD>24.98200035095215</TD>
+          </TR>
+          <TR>
+            <TD>30.009000778198242</TD>
+            <TD>22900.0</TD>
+            <TD>30.009000778198242</TD>
+          </TR>
+          <TR>
+            <TD>59.958499908447266</TD>
+            <TD>104000.0</TD>
+            <TD>59.958499908447266</TD>
+          </TR>
+          <TR>
+            <TD>99.93099975585938</TD>
+            <TD>115000.0</TD>
+            <TD>99.93099975585938</TD>
+          </TR>
+          <TR>
+            <TD>249.8300018310547</TD>
+            <TD>301000.0</TD>
+            <TD>249.8300018310547</TD>
+          </TR>
+          <TR>
+            <TD>349.82000732421875</TD>
+            <TD>11700.0</TD>
+            <TD>349.82000732421875</TD>
+          </TR>
+          <TR>
+            <TD>499.6499938964844</TD>
+            <TD>3900.0</TD>
+            <TD>499.6499938964844</TD>
+          </TR>
+          <TR>
+            <TD>849.27001953125</TD>
+            <TD>456.0</TD>
+            <TD>849.27001953125</TD>
+          </TR>
+        </TABLEDATA>
+      </DATA>
+    </TABLE>
+  </RESOURCE>
+</VOTABLE>
